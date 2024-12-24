@@ -22,8 +22,7 @@ class UsersController {
         .status(201)
         .json({ message: "verify email to complete signUp" });
     } catch (err) {
-      console.log(err);
-      return res.status(500).json({ error: "failed to initiate signUp" });
+      return res.status(500).json({ error: err.message });
     }
   }
 
@@ -39,10 +38,9 @@ class UsersController {
     } = req.body;
 
     try {
-      const userId = await supabaseClient.signIn({ email, password });
-      console.log(userId);
+      const session = await supabaseClient.signIn({ email, password });
       const data = await supabaseClient.insertUser({
-        user_id: userId,
+        user_id: session.user.id,
       });
       await supabaseClient.insertContestant({
         user_id: userId,
@@ -55,7 +53,7 @@ class UsersController {
       return res.json(data);
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ message: "check to verify your email" });
+      return res.status(500).json({ message: err.message });
     }
   }
 }
