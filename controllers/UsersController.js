@@ -25,7 +25,7 @@ class UsersController {
     } catch (err) {
       if (err.message === "User already registered")
         return res.status(409).json({error: err.message});
-      return res.status(500).json({ error: err.message });
+      return res.status(err.status).json({ error: err.message });
     }
   }
 
