@@ -25,7 +25,7 @@ class UsersController {
     } catch (err) {
       if (err.message === "User already registered")
         return res.status(409).json({error: err.message});
-      return res.status(err.status).json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     }
   }
 
@@ -33,8 +33,8 @@ class UsersController {
     const {
       email,
       password,
-      first_name,
-      last_name,
+      firstName,
+      lastName,
       role,
       phone,
       department_id
@@ -48,16 +48,18 @@ class UsersController {
       await User.insertContestant({
         user_id: session.user.id,
         email,
-        first_name,
-        last_name,
+        first_name: firstName,
+        last_name: lastName,
         role,
         phone,
         department_id,
       });
       return res.json(data);
     } catch (err) {
-      console.log(err);
-      return res.status(err.status).json({ message: err.message });
+      if (err.message === "Email not confirmed") {
+        return res.status(403).json({ error: err.message });
+      }
+      return res.status(err.status).json({ error: err.message });
     }
   }
 
