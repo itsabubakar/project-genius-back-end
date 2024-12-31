@@ -7,8 +7,8 @@
 import { Router } from "express";
 import AuthsController from "../controllers/authsController";
 import FacultiesController from "../controllers/facultiesController";
-import UsersController from "../controllers/usersController";
-import TeamsController from "../controllers/teamsController";
+import UsersController from "../controllers/UsersController";
+import TeamsController from "../controllers/TeamsController";
 import AppController from "../controllers/AppController";
 
 const router = Router();
@@ -27,5 +27,6 @@ router.get("/teams", TeamsController.getAll);
 router.post("/auth/connect", AuthsController.connect);
 router.post("/users/finalize", UsersController.finalizeSignUp);
 router.post("/users", UsersController.initiateSignUp);
+router.put('/users/:id', UsersController.updateUser);
 
 module.exports = router;

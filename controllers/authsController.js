@@ -5,7 +5,7 @@
  * @license LicenseHereIfApplicable
  */
 
-import supabaseClient from "../utils/supabase";
+import Auth from "../utils/auth";
 
 class AuthsController {
   /**
@@ -14,15 +14,17 @@ class AuthsController {
 
   static async connect(req, res) {
     const { email, password } = req.body;
+    console.log(email, password);
     if (!email) return res.status(400).json({ error: "Missing email" });
     if (!password) return res.status(400).json({ error: "Missing password" });
     try {
-      const session = await supabaseClient.signIn({ email, password });
+      const session = await Auth.signIn({ email, password });
       res.cookie("refresh_token", session.refresh_token);
       return res.status(200).json({
         id: session.user.id,
       });
     } catch (err) {
+      
       return res.status(err.status).json({ error: err.message });
     }
   }
@@ -30,7 +32,7 @@ class AuthsController {
   static async disconnect(req, res) {
     try {
 
-      supabaseClient.signOut();
+      Auth.signOut();
       res.status(204).send();
     } catch(err) {
       console.log(err);
@@ -38,27 +40,30 @@ class AuthsController {
 
   }
   
-
   static async reset(req, res) {
     const {email} = req.body;
     console.log(email);
     if (!email) return res.status(400).json({})
     try {
-      await supabaseClient.sendReset(email);
+      await Auth.sendReset(email);
       return res.status(200).json({"message": "Check your email for request link"});
     } catch(err) {
       console.log(err);
+      return res.status(500).send();
     }
   }
 
   static async finalizeReset(req, res) {
     const {password} = req.body;
+    const {accessToken} = req.body;
+    console.log(password);
     if (!password) return res.status(400).json({error: "Missing password"});
     try {
-      await supabaseClient.updatePassword(password);
+      await Auth.updatePassword(password, accessToken);
       return res.status(201).json({"message": "Password Updated"})
     } catch(err) {
       console.log(err);
+      return res.status(err.status).json({error: err.message})
     }
   }
 }
