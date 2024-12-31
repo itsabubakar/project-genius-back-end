@@ -21,7 +21,7 @@ class UsersController {
       const user = await Auth.signUp({ email, password });
       return res
         .status(201)
-        .json({ message: "verify email to complete signUp" });
+        .json({ message: "Verify email to complete signUp" });
     } catch (err) {
       if (err.message === "User already registered")
         return res.status(409).json({error: err.message});
@@ -39,6 +39,14 @@ class UsersController {
       phone,
       department_id
     } = req.body;
+    
+    if (!email) res.status(400).json({ error: "Missing email"})
+    if (!password) res.status(400).json({ error: "Missing password"})
+    if (!role) res.status(400).json({ error: "Missing role"})
+
+    if (!(['member', 'lead'].includes(role))) {
+      return res.status(400).json({ error: "Invalid role selected"});
+    }
 
     try {
       const session = await Auth.signIn({ email, password });
@@ -54,7 +62,7 @@ class UsersController {
         phone,
         department_id,
       });
-      return res.json(data);
+      return res.json({ message: "Sign Up complete" });
     } catch (err) {
       if (err.message === "Email not confirmed") {
         return res.status(403).json({ error: err.message });
