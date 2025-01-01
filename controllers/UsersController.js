@@ -62,7 +62,10 @@ class UsersController {
         phone,
         department_id,
       });
-      return res.json({ message: "Sign Up complete" });
+      return res.json({ 
+        message: "SignUp complete",
+        userId: session.user.id,
+      });
     } catch (err) {
       if (err.message === "Email not confirmed") {
         return res.status(403).json({ error: err.message });
