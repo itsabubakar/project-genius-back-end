@@ -4,12 +4,12 @@
  * @copyright Project Genius 2025
  */
 
-import supabaseClient from "../utils/supabase";
+import Faculty from "../utils/faculty";
 
 class FalcultiesController {
   static async getAll(req, res) {
     try {
-      const faculties = await supabaseClient.getFaculties();
+      const faculties = await Faculty.getFaculties();
       return res.status(200).json(faculties);
     } catch (err) {
       return res.status(500).json({ error: err.message });
@@ -22,7 +22,7 @@ class FalcultiesController {
       return res.status(400).json({ error: "Missing faculty_id" });
 
     try {
-      const departments = await supabaseClient.getDepartments(faculty_id);
+      const departments = await Faculty.getDepartments(faculty_id);
       return res.status(200).json(departments);
     } catch (err) {
       return res.status(500).json({ error: err.message });

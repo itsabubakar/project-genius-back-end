@@ -21,21 +21,19 @@ class AuthsController {
       const session = await Auth.signIn({ email, password });
       res.cookie("refresh_token", session.refresh_token);
       return res.status(200).json({
-        id: session.user.id,
+        userId: session.user.id,
       });
     } catch (err) {
-      
       return res.status(err.status).json({ error: err.message });
     }
   }
 
   static async disconnect(req, res) {
     try {
-
       Auth.signOut();
-      res.status(204).send();
+      return res.status(204).send();
     } catch(err) {
-      console.log(err);
+      return res.status(err.status).json({error: err.message});
     }
 
   }
@@ -48,8 +46,7 @@ class AuthsController {
       await Auth.sendReset(email);
       return res.status(200).json({"message": "Check your email for request link"});
     } catch(err) {
-      console.log(err);
-      return res.status(500).send();
+      return res.status(err).json({error: err.message});
     }
   }
 
@@ -62,7 +59,6 @@ class AuthsController {
       await Auth.updatePassword(password, accessToken);
       return res.status(201).json({"message": "Password Updated"})
     } catch(err) {
-      console.log(err);
       return res.status(err.status).json({error: err.message})
     }
   }

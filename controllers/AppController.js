@@ -18,9 +18,13 @@ class AppController {
       }
       const members = await Team.getMembers(contestant.team_id);
       const currentStage = await Stage.curStage();
-      console.log(members);
-      console.log(currentStage);
-      return res.json({ currentStage, members });
+      return res.json({ 
+        currentStage, 
+        team: members, 
+        owner: {
+          name: contestant.firstName,
+          initials: contestant.firstName[0] + contestant.lastName[0]
+        }});
     } catch (err) {
       console.log(err);
       return res.status(401).json({ error: err.message });
