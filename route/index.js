@@ -5,8 +5,8 @@
  */
 
 import { Router } from "express";
-import AuthsController from "../controllers/authsController";
-import FacultiesController from "../controllers/facultiesController";
+import AuthsController from "../controllers/AuthsController";
+import FacultiesController from "../controllers/FacultiesController";
 import UsersController from "../controllers/UsersController";
 import TeamsController from "../controllers/TeamsController";
 import AppController from "../controllers/AppController";
