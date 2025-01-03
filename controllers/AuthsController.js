@@ -19,7 +19,7 @@ class AuthsController {
     if (!password) return res.status(400).json({ error: "Missing password" });
     try {
       const session = await Auth.signIn({ email, password });
-      res.cookie("refresh_token", session.refresh_token);
+      // res.cookie("refresh_token", session.refresh_token);
       return res.status(200).json({
         userId: session.user.id,
       });
@@ -51,11 +51,12 @@ class AuthsController {
 
   static async finalizeReset(req, res) {
     const {password} = req.body;
-    const {accessToken} = req.body;
+    const {token} = req.body;
     console.log(password);
-    if (!password) return res.status(400).json({error: "Missing password"});
+    if (!password) return res.status(400).json({ error: "Missing password"});
+    if (!token) return res.status(400).json({ error: 'Missing token'})
     try {
-      await Auth.updatePassword(password, accessToken);
+      await Auth.updatePassword(password, token);
       return res.status(201).json({"message": "Password Updated"})
   } catch(err) {
       console.log("Entered controller catch")
