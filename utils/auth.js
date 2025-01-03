@@ -32,15 +32,24 @@ class Auth {
   }
 
   static async updatePassword(password, token) {
-    const { error: sessionError } = await supabaseClient
-    .supabase.auth.setSession({
-      access_token: token,
-      refresh_token: token,
-    });
-    if (sessionError) throw sessionError;
+    // console.log('Inside updatePassword')
+    // const { error: sessionError } = await supabaseClient
+    // .supabase.auth.setSession({
+    //   access_token: token,
+    //   refresh_token: token,
+    // });
+    // console.log(sessionError);
+    // if (sessionError) {
+    //   console.log(sessionError);
+    //   throw sessionError;
+    // } 
+    // console.log("NOT sessionError");
     const { data, error } = await supabaseClient
-    .supabase.auth.updateUser({ password });
-    if (error) throw error;
+    .supabase.auth.api.updateUser( token, { password, });
+    if (error) {
+      console.log(error);
+      throw error;
+    }
     return data;
   }
 

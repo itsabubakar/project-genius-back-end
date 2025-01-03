@@ -45,7 +45,7 @@ class AuthsController {
       await Auth.sendReset(email);
       return res.status(200).json({"message": "Check your email for request link"});
     } catch(err) {
-      return res.status(err).json({error: err.message});
+      return res.status(err.status).json({error: err.message});
     }
   }
 
@@ -58,6 +58,8 @@ class AuthsController {
       await Auth.updatePassword(password, accessToken);
       return res.status(201).json({"message": "Password Updated"})
   } catch(err) {
+      console.log("Entered controller catch")
+      console.log(err);
       return res.status(err.status).json({error: err.message})
     }
   }
