@@ -22,22 +22,7 @@ class SupabaseClient {
     this.supabase = createClient(this.supabaseURL, this.supabaseKey);
   }
 
-  async getFaculties() {
-    const { data, error } = await this.supabase
-      .from("faculties")
-      .select("id, name");
-    if (error) throw error;
-    return data;
-  }
-
-  async getDepartments(faculty_id) {
-    const { data, error } = await this.supabase
-      .from("departments")
-      .select("id, name")
-      .eq("faculty_id", faculty_id);
-    if (error) throw error;
-    return data;
-  }
+  
 
   async validToken(user_token) {
     const session = await this.supabase.auth.getSession();

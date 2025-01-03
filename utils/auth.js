@@ -7,6 +7,12 @@
 import supabaseClient from './supabase';
 
 class Auth {
+
+  static isValidJWT(token) {
+    const parts = token.split(".");
+    return parts.length === 3;
+  }
+
   static async signUp(credential) {
     const { data, error } = await supabaseClient.supabase.auth.signUp({
       email: credential.email,
@@ -32,24 +38,18 @@ class Auth {
   }
 
   static async updatePassword(password, token) {
-    // console.log('Inside updatePassword')
-    // const { error: sessionError } = await supabaseClient
-    // .supabase.auth.setSession({
-    //   access_token: token,
-    //   refresh_token: token,
-    // });
-    // console.log(sessionError);
-    // if (sessionError) {
-    //   console.log(sessionError);
-    //   throw sessionError;
-    // } 
-    // console.log("NOT sessionError");
+    const { error: sessionError } = await supabaseClient
+    .supabase.auth.setSession({
+      access_token: token,
+      refresh_token: token,
+    });
+    if (sessionError) 
+      throw sessionError;
+
     const { data, error } = await supabaseClient
-    .supabase.auth.api.updateUser( token, { password, });
-    if (error) {
-      console.log(error);
+    .supabase.auth.updateUser({ password });
+    if (error) 
       throw error;
-    }
     return data;
   }
 

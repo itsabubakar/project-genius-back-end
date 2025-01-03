@@ -32,36 +32,39 @@ class AuthsController {
     try {
       Auth.signOut();
       return res.status(204).send();
-    } catch(err) {
-      return res.status(err.status).json({error: err.message});
+    } catch (err) {
+      return res.status(err.status).json({ error: err.message });
     }
-
   }
-  
+
   static async reset(req, res) {
-    const {email} = req.body;
-    if (!email) return res.status(400).json({ error: "Missing email"})
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ error: "Missing email" });
     try {
       await Auth.sendReset(email);
-      return res.status(200).json({"message": "Check your email for request link"});
-    } catch(err) {
-      return res.status(err.status).json({error: err.message});
+      return res
+        .status(200)
+        .json({ message: "Check your email for request link" });
+    } catch (err) {
+      return res.status(err.status).json({ error: err.message });
     }
   }
 
   static async finalizeReset(req, res) {
-    const {password} = req.body;
-    const {token} = req.body;
-    console.log(password);
-    if (!password) return res.status(400).json({ error: "Missing password"});
-    if (!token) return res.status(400).json({ error: 'Missing token'})
+    const { password } = req.body;
+    const { accessToken } = req.body;
+
+    if (!password) return res.status(400).json({ error: "Missing password" });
+    if (!accessToken)
+      return res.status(400).json({ error: "Missing accessToken" });
+    if (!Auth.isValidJWT(accessToken))
+      return res.status(401).json({ error: "Unauthorized" });
+
     try {
-      await Auth.updatePassword(password, token);
-      return res.status(201).json({"message": "Password Updated"})
-  } catch(err) {
-      console.log("Entered controller catch")
-      console.log(err);
-      return res.status(err.status).json({error: err.message})
+      await Auth.updatePassword(password, accessToken);
+      return res.status(201).json({ message: "Password Updated" });
+    } catch (err) {
+      return res.status(err.status).json({ error: err.message });
     }
   }
 }
