@@ -79,14 +79,14 @@ class UsersController {
     const id = req.params.id
     if (!id) return res.status(404).json({ message: err.message });
     const {
-      first_name,
-      last_name,
+      firstName,
+      lastName,
       phone
     } = req.body;
     try {
       await User.update({
-        first_name,
-        last_name,
+        first_name : firstName,
+        last_name : lastName,
         phone
       }, id);
       return res.status(200).json({ message: "Update was successful" });
