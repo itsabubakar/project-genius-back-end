@@ -37,12 +37,13 @@ class UsersController {
       lastName,
       role,
       phone,
-      department_id
+      departmentId
     } = req.body;
     
     if (!email) res.status(400).json({ error: "Missing email"})
     if (!password) res.status(400).json({ error: "Missing password"})
     if (!role) res.status(400).json({ error: "Missing role"})
+    if (!departmentId) res.status(400).json({ error: "Missing department"})
 
     if (!(['member', 'lead'].includes(role))) {
       return res.status(400).json({ error: "Invalid role selected"});
@@ -60,7 +61,7 @@ class UsersController {
         last_name: lastName,
         role,
         phone,
-        department_id,
+        department_id: departmentId
       });
       return res.json({ 
         message: "SignUp complete",
