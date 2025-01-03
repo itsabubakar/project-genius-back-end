@@ -17,12 +17,12 @@ class FalcultiesController {
   }
 
   static async getDeptsByFac(req, res) {
-    const faculty_id = req.params.id;
-    if (!faculty_id)
-      return res.status(400).json({ error: "Missing faculty_id" });
+    const facultyId = req.params.id;
+    if (!facultyId)
+      return res.status(400).json({ error: "Missing faculty id" });
 
     try {
-      const departments = await Faculty.getDepartments(faculty_id);
+      const departments = await Faculty.getDepartments(facultyId);
       return res.status(200).json(departments);
     } catch (err) {
       return res.status(500).json({ error: err.message });
