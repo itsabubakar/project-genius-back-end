@@ -87,7 +87,7 @@ class UsersController {
       await User.update({
         first_name : firstName,
         last_name : lastName,
-        phone
+        phone,
       }, id);
       return res.status(200).json({ message: "Update was successful" });
     } catch(err) {
