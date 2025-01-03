@@ -89,16 +89,13 @@ class UsersController {
         last_name,
         phone
       }, id);
-      return res.status(204).send();
+      return res.status(200).json({ message: "Update was successful" });
     } catch(err) {
       console.log(err);
       return res.status(err.status).json({ error: err.message });
     }
   }
 
-  static async uploadPicture(req, res) {
-    
-  }
 }
 
 module.exports = UsersController;
