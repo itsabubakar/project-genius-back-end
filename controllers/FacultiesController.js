@@ -6,7 +6,7 @@
 
 import Faculty from "../utils/faculty";
 
-class FalcultiesController {
+class FacultiesController {
   static async getAll(req, res) {
     try {
       const faculties = await Faculty.getFaculties();
@@ -25,9 +25,9 @@ class FalcultiesController {
       const departments = await Faculty.getDepartments(facultyId);
       return res.status(200).json(departments);
     } catch (err) {
-      return res.status(500).json({ error: err.message });
+      return res.status(err.status).json({ error: err.message });
     }
   }
 }
 
-module.exports = FalcultiesController;
+module.exports = FacultiesController;
