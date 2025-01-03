@@ -91,7 +91,6 @@ class UsersController {
       }, id);
       return res.status(200).json({ message: "Update was successful" });
     } catch(err) {
-      console.log(err);
       return res.status(err.status).json({ error: err.message });
     }
   }
