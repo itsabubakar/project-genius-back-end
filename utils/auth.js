@@ -37,6 +37,7 @@ class Auth {
       access_token: token,
       refresh_token: token,
     });
+    if (sessionError) throw sessionError;
     const { data, error } = await supabaseClient
     .supabase.auth.updateUser({ password });
     if (error) throw error;

@@ -40,8 +40,7 @@ class AuthsController {
   
   static async reset(req, res) {
     const {email} = req.body;
-    console.log(email);
-    if (!email) return res.status(400).json({})
+    if (!email) return res.status(400).json({ error: "Missing email"})
     try {
       await Auth.sendReset(email);
       return res.status(200).json({"message": "Check your email for request link"});
@@ -58,7 +57,7 @@ class AuthsController {
     try {
       await Auth.updatePassword(password, accessToken);
       return res.status(201).json({"message": "Password Updated"})
-    } catch(err) {
+  } catch(err) {
       return res.status(err.status).json({error: err.message})
     }
   }
