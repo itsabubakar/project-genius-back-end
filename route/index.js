@@ -22,7 +22,7 @@ router.post("/auth/connect", AuthsController.connect);
 router.delete("/auth/disconnect", AuthsController.disconnect);
 router.post("/auth/reset", AuthsController.reset);
 router.post("/auth/reset/finalize", AuthsController.finalizeReset);
-router.get("/faculties/:id/depts", FacultiesController.getDeptsByFac);
+router.get("/faculties/:id", FacultiesController.getDeptsByFac);
 router.get("/faculties", FacultiesController.getAll);
 router.get("/teams", TeamsController.getAll);
 router.post("/users/finalize", UsersController.finalizeSignUp);
