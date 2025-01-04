@@ -21,7 +21,7 @@ class FacultiesController {
     if (!facultyId)
       return res.status(400).json({ error: "Missing faculty id" });
 
-    if (!Number(facultyId)) res.status(400).json({ error: "id should be a number"})
+    if (!Number(facultyId)) return res.status(400).json({ error: "id should be a number"})
 
     try {
       const departments = await Faculty.getDepartments(facultyId);
