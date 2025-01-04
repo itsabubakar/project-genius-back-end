@@ -1,5 +1,4 @@
 # PROJECT GENIUS API DOCUMENTATION
----
 
 **BaseUrl** = *https://project-genius-back-end.onrender.com/users*
 **All POST, PATCH, PUT uses header `Content-Type: application/json`**
@@ -20,7 +19,7 @@
         }
         ```
     - **Return**:
-        - _<span style="color: green">Success</span>_ 
+        - _<span style="color: green">Success</span>_   
         | Status Code | Response Body                               |
         |:------------|---------------------------------------------|
         | 200         | `{ "message": "Verify email to complete Sign Up" }` |
