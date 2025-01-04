@@ -6,6 +6,7 @@ All POST, PATCH, PUT uses header `Content-Type: application/json`
 
 ## <span style="color:blue"> Sign Up Flow Endpoint</span>
 
+![singUp flow](SignUp-Flow.png)
 
 - ### <span style="color: green"> POST</span> SignUp Initiation
     - **Method**: `POST`
