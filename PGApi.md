@@ -19,7 +19,9 @@
         }
         ```
     - **Return**:
-        - _<span style="color: green">Success</span>_   
-        
+        - _<span style="color: green">Success</span>_  
+            - status: 200  
+            - response: ` { "message": "Verify email to complete SignUp" }`  
+        - _<>
 
 
