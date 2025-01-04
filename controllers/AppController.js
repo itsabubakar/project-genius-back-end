@@ -9,7 +9,7 @@ class AppController {
     try {
       const contestant = await User.getContestant(id);
       if (!contestant) {
-        return res.status(400).json({ error: "Invalid Id"});
+        return res.status(400).json({ error: "Invalid login Id"});
       }
       if (contestant.team_id === null) {
         if (contestant.role === "member")

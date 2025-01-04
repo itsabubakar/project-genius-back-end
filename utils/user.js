@@ -22,10 +22,7 @@ class User {
       .from("contestants")
       .select()
       .eq("user_id", id);
-    console.log("get contestant");
     if (error) throw error;
-
-    console.log(data);
     return data[0];
   }
 
