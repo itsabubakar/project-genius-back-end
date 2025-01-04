@@ -23,6 +23,12 @@ All POST, PATCH, PUT uses header `Content-Type: application/json`
         - _<span style="color: green">Success</span>_  
             - status: 200  
             - response: ` { "message": "Verify email to complete SignUp" }`  
-        - _<>
+        - _<span style="color: red">Error</span>_
+            400
+            ```javascript
+
+            { error: "Missing email"} //when email is missing
+            { error: "Missing password"} // when password
+            ```
 
 
