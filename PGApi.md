@@ -20,8 +20,8 @@
         ```
     - **Return**:
         - _<span style="color: green">Success</span>_   
-        | Status Code | Response Body                           |  
-|:------------|-----------------------------------------|  
-| 200         | `{ "message": "Verify email to complete Sign Up" }` |  
+        | Status Code   | Response Body                                       |  
+        | :------------ | --------------------------------------------------- |  
+        | 200           | `{ "message": "Verify email to complete Sign Up" }` |  
 
 
