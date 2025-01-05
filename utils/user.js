@@ -42,8 +42,8 @@ class User {
     const { data, error } = await supabaseClient.supabase
       .from("contestants")
       .update(values)
-      .eq('user_id', id);
-      .select()
+      .eq('user_id', id)
+      .select();
     
     if (error) throw error;
     return data;
