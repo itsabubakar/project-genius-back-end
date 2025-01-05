@@ -181,6 +181,17 @@ All POST, PATCH, PUT uses header `Content-Type: application/json`
             ```javascript
             { error: "Invalid login Id" } // when id is not a for a valid login user
             ```  
+## <span style="color:blue"> Login Out Endpoint</span>
+- ### <span style="color: green"> DELETE</span> LogOut
+    - **Method**: `DELETE`
+    - **URL**: `BaseUrl/auth/disconnect`
+    - **Description** : login a user to the application
+    - **Return**:
+        - _<span style="color: green">Success</span>_  
+            - status: 204
+            - response: empty
+    
+
 ## <span style="color:blue"> Reset Password Flow Endpoints</span>
 ![singUp flow](reset-password.png)
 
@@ -233,3 +244,27 @@ All POST, PATCH, PUT uses header `Content-Type: application/json`
             ```javascript
             { error: "Unauthorized" } // not a valid accessToken
             ```
+## <span style="color:blue"> Update Profile Endpoint</span>
+- ### <span style="color: green">PATCH</span> Update profile information
+    - **Method**: `PATCH`
+    - **URL**: `BaseUrl/users/:id`
+    - **Description** : updates user profile information
+
+    - **param**: id - id of login user
+    - **Return**:
+        - _<span style="color: green">Success</span>_  
+            - status: 200  
+            - response: `{ message: Update was successful}`
+        - _<span style="color: red">Error</span>_
+            400
+            ```javascript
+            { error: "id not a valid uuid" } // when id is not a uuid
+            ```
+            401
+            ```javascript
+            { error: "Unauthorized" }
+            ```
+            404
+            ```javascript
+            { error: "User not found" }
+            ```  

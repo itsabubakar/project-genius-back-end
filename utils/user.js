@@ -43,6 +43,7 @@ class User {
       .from("contestants")
       .update(values)
       .eq('user_id', id);
+      .select()
     
     if (error) throw error;
     return data;

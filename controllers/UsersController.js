@@ -1,4 +1,4 @@
- /**
+/**
  * @file Provides all functionality for user end points
  * @author Simpa
  * @copyright Project Genius 2025
@@ -24,29 +24,22 @@ class UsersController {
         .json({ message: "Verify email to complete signUp" });
     } catch (err) {
       if (err.message === "User already registered")
-        return res.status(409).json({error: err.message});
+        return res.status(409).json({ error: err.message });
       return res.status(err.status).json({ error: err.message });
     }
   }
 
   static async finalizeSignUp(req, res) {
-    const {
-      email,
-      password,
-      firstName,
-      lastName,
-      role,
-      phone,
-      departmentId
-    } = req.body;
-    
-    if (!email) res.status(400).json({ error: "Missing email"})
-    if (!password) res.status(400).json({ error: "Missing password"})
-    if (!role) res.status(400).json({ error: "Missing role"})
-    if (!departmentId) res.status(400).json({ error: "Missing department"})
+    const { email, password, firstName, lastName, role, phone, departmentId } =
+      req.body;
 
-    if (!(['member', 'lead'].includes(role))) {
-      return res.status(400).json({ error: "Invalid role selected"});
+    if (!email) res.status(400).json({ error: "Missing email" });
+    if (!password) res.status(400).json({ error: "Missing password" });
+    if (!role) res.status(400).json({ error: "Missing role" });
+    if (!departmentId) res.status(400).json({ error: "Missing department" });
+
+    if (!["member", "lead"].includes(role)) {
+      return res.status(400).json({ error: "Invalid role selected" });
     }
 
     try {
@@ -61,9 +54,9 @@ class UsersController {
         last_name: lastName,
         role,
         phone,
-        department_id: departmentId
+        department_id: departmentId,
       });
-      return res.status(201).json({ 
+      return res.status(201).json({
         message: "SignUp complete",
       });
     } catch (err) {
@@ -75,25 +68,29 @@ class UsersController {
   }
 
   static async updateUser(req, res) {
-    const id = req.params.id
-    if (!id) return res.status(404).json({ message: err.message });
-    const {
-      firstName,
-      lastName,
-      phone
-    } = req.body;
+    const id = req.params.id;
+    if (!id) return res.status(401).json({ message: "Unauthorized" });
+    if (!Auth.isValidJWT(id))
+      return res.status(400).json({ message: "id not a uuid" });
+    const { firstName, lastName, phone } = req.body;
     try {
-      await User.update({
-        first_name : firstName,
-        last_name : lastName,
-        phone,
-      }, id);
+      const user = await User.update(
+        {
+          first_name: firstName,
+          last_name: lastName,
+          phone,
+        },
+        id
+      );
+
+      if (!user)
+        return res.status(404).json({ error: "User not found" });
+
       return res.status(200).json({ message: "Update was successful" });
-    } catch(err) {
+    } catch (err) {
       return res.status(err.status).json({ error: err.message });
     }
   }
-
 }
 
 module.exports = UsersController;

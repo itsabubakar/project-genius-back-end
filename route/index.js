@@ -25,8 +25,9 @@ router.post("/auth/reset/finalize", AuthsController.finalizeReset);
 router.get("/faculties/:id", FacultiesController.getDeptsByFac);
 router.get("/faculties", FacultiesController.getAll);
 router.get("/teams", TeamsController.getAll);
+router.patch('/users/:id', UsersController.updateUser);
 router.post("/users/finalize", UsersController.finalizeSignUp);
 router.post("/users", UsersController.initiateSignUp);
-router.patch('/users/:id', UsersController.updateUser);
+
 
 module.exports = router;
