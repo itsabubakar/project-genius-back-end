@@ -22,8 +22,9 @@ class Auth {
     const { data, error } = await supabaseClient.supabase.auth.signUp({
       email: credential.email,
       password: credential.password,
-    }, {
-      redirectTo: "https://project-genius-frontend.vercel.app/auth/verified"
+      options: {
+          emailRedirectTo: "https://project-genius-frontend.vercel.app/auth/verified"
+      }
     });
     if (error) throw error;
     return data;
