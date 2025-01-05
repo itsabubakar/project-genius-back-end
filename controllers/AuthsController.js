@@ -14,7 +14,7 @@ class AuthsController {
 
   static async connect(req, res) {
     const { email, password } = req.body;
-    console.log(email, password);
+    // console.log(email, password);
     if (!email) return res.status(400).json({ error: "Missing email" });
     if (!password) return res.status(400).json({ error: "Missing password" });
     try {
@@ -44,7 +44,7 @@ class AuthsController {
       await Auth.sendReset(email);
       return res
         .status(200)
-        .json({ message: "Check your email for request link" });
+        .json({ message: "Check your email for reset link" });
     } catch (err) {
       return res.status(err.status).json({ error: err.message });
     }

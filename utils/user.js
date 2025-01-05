@@ -18,6 +18,7 @@ class User {
   }
 
   static async getContestant(id) {
+    // console.log(id);
     const { data, error } = await supabaseClient.supabase
       .from("contestants")
       .select()

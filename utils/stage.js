@@ -38,7 +38,7 @@ class Stage {
       return futureStages[0].stage_name;
     }
 
-    if (futureStages.length == 3) return "post";
+    if (futureStages.length == 0) return "post"
   }
 }
 

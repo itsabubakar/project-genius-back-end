@@ -11,7 +11,7 @@ class Team {
   static async getMembers(team_id) {
     const { data, error } = await supabaseClient.supabase
       .from("contestants")
-      .select("user_id, first_name, role")
+      .select("user_id, first_name, role, initials")
       .eq("team_id", team_id);
     if (error) throw error;
     return data;

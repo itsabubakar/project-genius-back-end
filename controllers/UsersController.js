@@ -20,7 +20,7 @@ class UsersController {
     try {
       const user = await Auth.signUp({ email, password });
       return res
-        .status(201)
+        .status(200)
         .json({ message: "Verify email to complete signUp" });
     } catch (err) {
       if (err.message === "User already registered")
@@ -63,7 +63,7 @@ class UsersController {
         phone,
         department_id: departmentId
       });
-      return res.json({ 
+      return res.status(201).json({ 
         message: "SignUp complete",
       });
     } catch (err) {

@@ -52,10 +52,11 @@ All POST, PATCH, PUT uses header `Content-Type: application/json`
             departmentId,
             phone
         }
+        // role is either lead or member
         ```
     - **Return**:
         - _<span style="color: green">Success</span>_  
-            - status: 200  
+            - status: 201  
             - response: ` { "message": "SignUp complete" }`  
         - _<span style="color: red">Error</span>_
             400
@@ -67,9 +68,13 @@ All POST, PATCH, PUT uses header `Content-Type: application/json`
             { error: "Missing departmentId"} // when departmentId is missing
             { error: "Invalid role selected"} // when role is not member or lead
             ```
+            403
+            ```javascript
+            { error: "Email not confirmed" }// when email has not been verified
+            ```
 
 - ### <span style="color: green"> GET</span> List all available  faculty
-    - **Method**: `POST`
+    - **Method**: `GET`
     - **URL**: `BaseUrl/faculties`
     - **Description** : retrieves all available faculty
     - **Return**:
@@ -84,7 +89,7 @@ All POST, PATCH, PUT uses header `Content-Type: application/json`
             ```
 
 - ### <span style="color: green"> GET</span> List all department by faculty
-    - **Method**: `POST`
+    - **Method**: `GET`
     - **URL**: `BaseUrl/faculties/:id`
     - **Description** : retrieve all departments belonging to a faculty
 
@@ -104,3 +109,127 @@ All POST, PATCH, PUT uses header `Content-Type: application/json`
             ```javascript
             { error: "id should be a number"} // when id is not a number
             ```  
+## <span style="color:blue"> Login Flow Endpoints</span>
+![login flow](login-flow.png)
+- ### <span style="color: green"> POST</span> Login
+    - **Method**: `POST`
+    - **URL**: `BaseUrl/auth/connect`
+    - **Description** : login a user to the application
+
+    - **body**:
+        ```javascript
+         {
+            email,
+            password,
+         }
+        ```
+    - **Return**:
+        - _<span style="color: green">Success</span>_  
+            - status: 200  
+            - response: returns id of user
+            ```
+            {
+                userId,
+            }
+            ```
+        - _<span style="color: red">Error</span>_
+            400
+            ```javascript
+            { error: "Missing email" } // when no email is sent in body
+            { error: "Missing password" } // whwen no password is sent
+            { error: "Invalid login credentials" } // when either password or email or both is wrong
+            ```  
+
+- ### <span style="color: green"> GET </span> User dashboard
+    - **Method**: `GET`
+    - **URL**: `BaseUrl/app/dashboard/:id`
+    - **Description** : user dashboard info
+    - **param**: id - user id returned at sign in
+    - **Return**:
+        - _<span style="color: green">Success</span>_  
+            - status: 200  
+            - response: returns details that includes
+            ```javascript
+            //if user has a team
+            {
+                currentStage, // curentStage is either registration, prototype,finale or post
+                team: [{ 
+                        user_id, 
+                        first_name,
+                        role,
+                        initials
+                    }],
+                owner: {
+                    name,
+                    initials
+                }
+            } 
+
+            //if user has no team but role is member
+            {
+                message: "please join a team"
+            }
+
+            //if user has no team but role is lead
+            {
+                message: "please create a team"
+            }
+            
+            ```
+        - _<span style="color: red">Error</span>_
+            401
+            ```javascript
+            { error: "Invalid login Id" } // when id is not a for a valid login user
+            ```  
+## <span style="color:blue"> Reset Password Flow Endpoints</span>
+![singUp flow](reset-password.png)
+
+- ### <span style="color: green"> POST</span> Initiate reset password
+    - **Method**: `POST`
+    - **URL**: `BaseUrl/auth/reset`
+    - **Description** : initiate the reset password functionality
+
+    - **Body**: 
+        ```javascript
+        {
+            email,
+        }
+        ```
+    - **Return**:
+        - _<span style="color: green">Success</span>_  
+            - status: 200  
+            - response: ` { "message": "Check your email for reset link" }`  
+        - _<span style="color: red">Error</span>_
+            400
+            ```javascript
+
+            { error: "Missing email"} //when email is missing
+            ```  
+
+- ### <span style="color: green"> POST</span> reset Finale
+    - **Method**: `POST`
+    - **URL**: `BaseUrl/auth/reset/finalize`
+    - **Description** : finalize Sign Up
+
+    - **Body**: 
+        ```javascript
+        {
+            password,
+            accessToken, //accessToken is extracted from the redirection page user gets in the email
+        }
+        ```
+    - **Return**:
+        - _<span style="color: green">Success</span>_  
+            - status: 201 
+            - response: ` { "message": "Password updated" }`  
+        - _<span style="color: red">Error</span>_
+            400
+            ```javascript
+
+            { error: "Missing password" } // when password is missing
+            { error: "Missing accessToken" } // when accessToken is missing
+            ```
+            401
+            ```javascript
+            { error: "Unauthorized" } // not a valid accessToken
+            ```
