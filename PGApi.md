@@ -129,7 +129,11 @@ All POST, PATCH, PUT uses header `Content-Type: application/json`
             - response: returns id of user
             ```
             {
+                firstName,
+                initials,
+                role,
                 userId,
+                teamId,
             }
             ```
         - _<span style="color: red">Error</span>_

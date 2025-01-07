@@ -18,7 +18,9 @@
     "chai-http": "^4.3.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "mailtrap": "^3.4.0",
     "moment-timezone": "0.5.46",
+    "nodemailer": "^6.9.16",
     "postgres": "^3.4.5"
   },
   "devDependencies": {

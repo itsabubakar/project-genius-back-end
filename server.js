@@ -9,3 +9,5 @@ app.use("/", router);
 app.listen(port, () => {
   console.log(`Server is running and listening on http://localhost:${port}`);
 });
+
+module.exports = app;
