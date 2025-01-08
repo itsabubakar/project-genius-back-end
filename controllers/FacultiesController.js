@@ -12,7 +12,9 @@ class FacultiesController {
       const faculties = await Faculty.getFaculties();
       return res.status(200).json(faculties);
     } catch (err) {
-      return res.status(500).json({ error: err.message });
+      if (!err.status)
+        return res.status(500).json({error: err.message});
+      return res.status(err.status).json({ error: err.message });
     }
   }
 
@@ -27,6 +29,8 @@ class FacultiesController {
       const departments = await Faculty.getDepartments(facultyId);
       return res.status(200).json(departments);
     } catch (err) {
+      if (!err.status)
+        return res.status(500).json({error: err.message});
       return res.status(err.status).json({ error: err.message });
     }
   }

@@ -30,6 +30,8 @@ class AuthsController {
         teamId: user.team_id,
       });
     } catch (err) {
+      if (!err.status)
+        return res.status(500).json({error: err.message});
       return res.status(err.status).json({ error: err.message });
     }
   }
@@ -39,6 +41,8 @@ class AuthsController {
       Auth.signOut();
       return res.status(204).send();
     } catch (err) {
+      if (!err.status)
+        return res.status(500).json({error: err.message});
       return res.status(err.status).json({ error: err.message });
     }
   }
@@ -52,6 +56,8 @@ class AuthsController {
         .status(200)
         .json({ message: "Check your email for reset link" });
     } catch (err) {
+      if (!err.status)
+        return res.status(500).json({error: err.message});
       return res.status(err.status).json({ error: err.message });
     }
   }
@@ -70,6 +76,8 @@ class AuthsController {
       await Auth.updatePassword(password, accessToken);
       return res.status(201).json({ message: "Password Updated" });
     } catch (err) {
+      if (!err.status)
+        return res.status(500).json({error: err.message});
       return res.status(err.status).json({ error: err.message });
     }
   }

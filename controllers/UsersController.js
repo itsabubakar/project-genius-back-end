@@ -25,6 +25,8 @@ class UsersController {
     } catch (err) {
       if (err.message === "User already registered")
         return res.status(409).json({ error: err.message });
+      if (!err.status)
+        return res.status(500).json({error: err.message});
       return res.status(err.status).json({ error: err.message });
     }
   }
@@ -63,6 +65,9 @@ class UsersController {
       if (err.message === "Email not confirmed") {
         return res.status(403).json({ error: err.message });
       }
+      console.log(err);
+      if (!err.status)
+        return res.status(500).json({error: err.message});
       return res.status(err.status).json({ error: err.message });
     }
   }
@@ -88,6 +93,9 @@ class UsersController {
 
       return res.status(200).json({ message: "Update was successful" });
     } catch (err) {
+      console.log(err);
+      if (!err.status)
+        return res.status(500).json({error: err.message});
       return res.status(err.status).json({ error: err.message });
     }
   }

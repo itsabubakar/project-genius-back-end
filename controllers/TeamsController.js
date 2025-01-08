@@ -16,7 +16,9 @@ class TeamsController {
       const teams = await supabaseClient.getTeams();
       return res.status(200).json(teams);
     } catch (err) {
-      return res.status(500).json({ error: err.message });
+      if (!err.status)
+        return res.status(500).json({error: err.message});
+      return res.status(err.status).json({ error: err.message });
     }
   }
 }
