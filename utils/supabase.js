@@ -31,6 +31,13 @@ class SupabaseClient {
     if (error) throw error;
     return user.id;
   }
+
+  async getUser() {
+    const {error, data} = await this.supabase.auth.getUser();
+
+    if (error) return null;
+    return data.user;
+  }
 }
 
 const supabaseClient = new SupabaseClient();

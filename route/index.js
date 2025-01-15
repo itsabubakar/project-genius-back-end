@@ -17,7 +17,8 @@ router.get("/", (req, res) => {
   res.send("Hello Genius!");
 });
 
-router.get("/app/dashboard/:id", AppController.dashboard);
+router.post("/app/contact", AppController.contactUs);
+router.get("/app/dashboard", AppController.dashboard);
 router.post("/auth/connect", AuthsController.connect);
 router.delete("/auth/disconnect", AuthsController.disconnect);
 router.post("/auth/reset", AuthsController.reset);
@@ -25,6 +26,7 @@ router.post("/auth/reset/finalize", AuthsController.finalizeReset);
 router.get("/faculties/:id", FacultiesController.getDeptsByFac);
 router.get("/faculties", FacultiesController.getAll);
 router.get("/teams", TeamsController.getAll);
+router.post("/teams", TeamsController.create);
 router.patch('/users/:id', UsersController.updateUser);
 router.post("/users/finalize", UsersController.finalizeSignUp);
 router.post("/users", UsersController.initiateSignUp);

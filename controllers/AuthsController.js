@@ -26,8 +26,6 @@ class AuthsController {
         firstName: user.first_name,
         initials: user.initials,
         role: user.role,
-        userId: user.user_id,
-        teamId: user.team_id,
       });
     } catch (err) {
       if (!err.status)

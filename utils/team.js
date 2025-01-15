@@ -8,11 +8,11 @@ import supabaseClient from './supabase';
 
 class Team {
   
-  static async getMembers(team_id) {
+  static async getMembers(teamId) {
     const { data, error } = await supabaseClient.supabase
       .from("contestants")
-      .select("user_id, first_name, role, initials")
-      .eq("team_id", team_id);
+      .select("first_name, role, initials")
+      .eq("team_id", teamId);
     if (error) throw error;
     return data;
   }
@@ -29,10 +29,21 @@ class Team {
     const { data, error } = await supabaseClient.supabase
       .from("teams")
       .insert(details)
-      .select();
+      .select("team_id, team_name");
     if (error) throw error;
-    return data;
+    return data[0];
   }
+
+  static async getTeam(teamId) {
+    const {data, error} = await supabaseClient.supabase
+      .from("teams")
+      .select("team_name")
+      .eq("team_id", teamId)
+
+    if (error) throw error;
+    return data[0];
+  }
+
 
 
 }
