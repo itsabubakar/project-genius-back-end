@@ -94,7 +94,8 @@ class AppController {
             const { status, data } = response.data;
     
             if (status && data.status === 'success') {
-              supabase.auth
+              
+              await supabase
                 .from('payments')
                 .insert({
                   email: customer.email,
@@ -106,11 +107,13 @@ class AppController {
               
     
               // Update your database here with verified transaction data
-              console.log(`Payment verified for ${email}. Reference: ${reference}, Amount: ${amount}`);
+              console.log(`Payment verified for ${customer}. Reference: ${reference}`);
+              return res.send()
             } else {
               console.error(`Failed to verify payment for reference: ${reference}`);
             }
           } catch (error) {
+            return res.status(500).send()
             console.error(`Error verifying transaction for reference: ${reference}`, error.message);
           }
         }
