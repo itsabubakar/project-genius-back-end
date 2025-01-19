@@ -5,8 +5,25 @@
 * @license LicenseHereIfApplicable
 */
 
+const { createClient } = require('@supabase/supabase-js');
 import supabaseClient from './supabase';
+require("dotenv").config();
+
+
 class App {
+
+    static async makePayment(details) {
+        const supabaseUrl = process.env.SUPABASE_URL;
+        const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+        const supabase = createClient(supabaseUrl, supabaseKey);
+
+        const {error} = await supabase
+            .from('payments')
+            .insert(details)
+        if (error) throw error;
+    }
+        
+    
     static async sendMessage(messageInfo) {
         const { error } = await supabaseClient.supabase 
             .from('contact_us')

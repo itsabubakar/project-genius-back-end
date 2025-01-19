@@ -8,7 +8,7 @@ require("dotenv").config();
 const crypto = require('crypto');
 const axios = require('axios');
 
-
+import App from '../utils/app';
 import supabaseClient from '../utils/supabase';
 import Stage from "../utils/stage";
 import Team from "../utils/team";
@@ -66,13 +66,7 @@ class AppController {
   }
 
   static async paymentHook(req, res) {
-    const { createClient } = require('@supabase/supabase-js');
-
-    const secret = process.env.PAYSTACK_SECRET_KEY
-    const supabaseUrl = process.env.SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-    const supabase = createClient(supabaseUrl, supabaseKey);
-
+    const secret = process.env.PAYSTACK_SECRET_KEY;
     const hash  = crypto
       .createHmac('sha512', secret)
       .update(JSON.stringify(req.body))
@@ -84,37 +78,34 @@ class AppController {
         if (event.event === 'charge.success') {
           const reference = event.data.reference;
           const customer = event.data.customer
+          const custom_fields = event.data.metadata.custom_fields
 
           try {
-            // Verify transaction with Paystack's API
             const response = await axios.get(`https://api.paystack.co/transaction/verify/${reference}`, {
-              headers: { Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}` },
+              headers: { Authorization: `Bearer ${secret}` },
             });
     
             const { status, data } = response.data;
     
             if (status && data.status === 'success') {
               
-              await supabase
-                .from('payments')
-                .insert({
-                  email: customer.email,
-                  full_name: `${customer.first_name} ${customer.last_name}`,
-                  ref: reference,
-                  phone: customer.phone,
-                  team: customer.team_name
-                })
+              await App.makePayment({
+                email: customer.email,
+                full_name: `${customer.first_name} ${customer.last_name}`,
+                ref: reference,
+                phone: customer.phone,
+                team: custom_fields[0].value
+              })
               
-    
-              // Update your database here with verified transaction data
               console.log(`Payment verified for ${customer}. Reference: ${reference}`);
-              return res.send()
+              return res.status(200).json({ message: 'Payment was registered successfully' })
             } else {
               console.error(`Failed to verify payment for reference: ${reference}`);
             }
-          } catch (error) {
-            return res.status(500).send()
-            console.error(`Error verifying transaction for reference: ${reference}`, error.message);
+          } catch (err) {
+            if (!err.status)
+              return res.status(500).send(err.message)
+            return res.status(err.status).json({ message: err.message })
           }
         }
       }
