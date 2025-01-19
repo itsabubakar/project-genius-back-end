@@ -10,7 +10,6 @@ const axios = require('axios');
 
 
 import supabaseClient from '../utils/supabase';
-import App const { createClient } = require('@supabase/supabase-js');from "../utils/app";
 import Stage from "../utils/stage";
 import Team from "../utils/team";
 import User from "../utils/user";
