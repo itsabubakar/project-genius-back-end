@@ -19,7 +19,7 @@ router.get("/", (req, res) => {
 
 router.post("/app/contact", AppController.contactUs);
 router.get("/app/dashboard", AppController.dashboard);
-router.post("/app/payment/hook", AppContorller.paymentHook);
+router.post("/app/payment/hook", AppController.paymentHook);
 router.post("/auth/connect", AuthsController.connect);
 router.delete("/auth/disconnect", AuthsController.disconnect);
 router.post("/auth/reset", AuthsController.reset);
