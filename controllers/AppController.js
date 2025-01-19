@@ -84,7 +84,7 @@ class AppController {
     
         if (event.event === 'charge.success') {
           const reference = event.data.reference;
-          const user = event.data.customer
+          const customer = event.data.customer
 
           try {
             // Verify transaction with Paystack's API
