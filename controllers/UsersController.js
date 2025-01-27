@@ -58,7 +58,8 @@ class UsersController {
         last_name: lastName,
         role,
         phone,
-        department_id: departmentId,
+        department,
+        faculty,
       });
       return res.status(201).json({
         message: "SignUp complete",
