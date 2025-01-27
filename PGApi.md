@@ -49,7 +49,8 @@ All POST, PATCH, PUT uses header `Content-Type: application/json`
             firstName,
             lastName,
             role,
-            departmentId,
+            department,
+            faculty,
             phone
         }
         // role is either lead or member
@@ -65,7 +66,8 @@ All POST, PATCH, PUT uses header `Content-Type: application/json`
             { error: "Missing email" } //when email is missing
             { error: "Missing password" } // when password is missing
             { error: "Missing role" } // when role is missing
-            { error: "Missing departmentId"} // when departmentId is missing
+            { error: "Missing department"} 
+            { error: "Missinng faculty" }// when departmentId is missing
             { error: "Invalid role selected"} // when role is not member or lead
             ```
             403
@@ -73,42 +75,6 @@ All POST, PATCH, PUT uses header `Content-Type: application/json`
             { error: "Email not confirmed" }// when email has not been verified
             ```
 
-- ### <span style="color: green"> GET</span> List all available  faculty
-    - **Method**: `GET`
-    - **URL**: `BaseUrl/faculties`
-    - **Description** : retrieves all available faculty
-    - **Return**:
-        - _<span style="color: green">Success</span>_  
-            - status: 200  
-            - response: _list of all faculties_
-            ```
-            [{
-                id,
-                name,
-            }]
-            ```
-
-- ### <span style="color: green"> GET</span> List all department by faculty
-    - **Method**: `GET`
-    - **URL**: `BaseUrl/faculties/:id`
-    - **Description** : retrieve all departments belonging to a faculty
-
-    - **param**: id - id of a valid faculty
-    - **Return**:
-        - _<span style="color: green">Success</span>_  
-            - status: 200  
-            - response: _list of all department for that faculty id_
-            ```
-            [{
-                id,
-                name,
-            }]
-            ```
-        - _<span style="color: red">Error</span>_
-            400
-            ```javascript
-            { error: "id should be a number"} // when id is not a number
-            ```  
 ## <span style="color:blue"> Login Flow Endpoints</span>
 ![login flow](login-flow.png)
 - ### <span style="color: green"> POST</span> Login
@@ -132,8 +98,6 @@ All POST, PATCH, PUT uses header `Content-Type: application/json`
                 firstName,
                 initials,
                 role,
-                userId,
-                teamId,
             }
             ```
         - _<span style="color: red">Error</span>_
@@ -146,7 +110,7 @@ All POST, PATCH, PUT uses header `Content-Type: application/json`
 
 - ### <span style="color: green"> GET </span> User dashboard
     - **Method**: `GET`
-    - **URL**: `BaseUrl/app/dashboard/:id`
+    - **URL**: `BaseUrl/app/dashboard`
     - **Description** : user dashboard info
     - **param**: id - user id returned at sign in
     - **Return**:
@@ -157,16 +121,12 @@ All POST, PATCH, PUT uses header `Content-Type: application/json`
             //if user has a team
             {
                 currentStage, // curentStage is either registration, prototype,finale or post
-                team: [{ 
-                        user_id, 
+                members: [{ 
                         first_name,
                         role,
                         initials
                     }],
-                owner: {
-                    name,
-                    initials
-                }
+                team: // team name
             } 
 
             //if user has no team but role is member
@@ -177,7 +137,7 @@ All POST, PATCH, PUT uses header `Content-Type: application/json`
             //if user has no team but role is lead
             {
                 message: "please create a team"
-            }
+            }v
             
             ```
         - _<span style="color: red">Error</span>_

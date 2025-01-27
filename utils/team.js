@@ -41,6 +41,8 @@ class Team {
       .eq("team_id", teamId)
 
     if (error) throw error;
+    if (!data)
+      return null;
     return data[0];
   }
 

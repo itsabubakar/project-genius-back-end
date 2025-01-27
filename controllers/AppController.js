@@ -110,6 +110,22 @@ class AppController {
         }
       }
   }
+
+  // static async submissionPage(req, res) {
+  //   try {
+  //     const user = supabaseClient.getUser();
+
+  //     if (!user)
+  //       return res.status(401).json({ error: "Unauthorized" });
+  //     const contestant = await User.getContestant(user.id);
+  //     const team = await Team.getTeam(contestant.team_id);
+     
+      
+      
+
+  //   }
+
+  // } 
 }
 
 

@@ -23,7 +23,11 @@ class App {
         if (error) throw error;
     }
         
-    
+
+    static async submissionPage() {
+        
+    }
+
     static async sendMessage(messageInfo) {
         const { error } = await supabaseClient.supabase 
             .from('contact_us')

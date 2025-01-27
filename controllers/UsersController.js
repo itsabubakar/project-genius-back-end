@@ -32,13 +32,15 @@ class UsersController {
   }
 
   static async finalizeSignUp(req, res) {
-    const { email, password, firstName, lastName, role, phone, departmentId } =
+    const { email, password, firstName, lastName, role, phone, department, faculty} =
       req.body;
 
     if (!email) res.status(400).json({ error: "Missing email" });
     if (!password) res.status(400).json({ error: "Missing password" });
     if (!role) res.status(400).json({ error: "Missing role" });
-    if (!departmentId) res.status(400).json({ error: "Missing department" });
+    if (!department) res.status(400).json({ error: "Missing department" });
+
+    if (!faculty) res.status(400).json({ error: "Missing faculty"});
 
     if (!["member", "lead"].includes(role)) {
       return res.status(400).json({ error: "Invalid role selected" });
