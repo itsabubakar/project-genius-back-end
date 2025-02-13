@@ -5,6 +5,7 @@
  */
 
 import supabaseClient from './supabase';
+import Auth from './auth';
 
 class Team {
   
@@ -45,7 +46,6 @@ class Team {
       return null;
     return data[0];
   }
-
 
 
 }

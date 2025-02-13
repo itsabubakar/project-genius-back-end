@@ -23,11 +23,13 @@ router.post("/app/payment/hook", AppController.paymentHook);
 router.post("/auth/connect", AuthsController.connect);
 router.delete("/auth/disconnect", AuthsController.disconnect);
 router.post("/auth/reset", AuthsController.reset);
-router.post("/auth/reset/finalize", AuthsController.finalizeReset);
+router.patch("/auth/reset/finalize", AuthsController.finalizeReset);
 router.post("/teams", TeamsController.create);
-router.patch('/users/:id', UsersController.updateUser);
-router.post("/users/finalize", UsersController.finalizeSignUp);
-router.post("/users", UsersController.initiateSignUp);
+router.patch("/users/team", TeamsController.join);
+router.patch('/users', UsersController.updateUser);
+// router.post("/users/finalize", UsersController.finalizeSignUp);
+router.post("/users", UsersController.SignUp);
+router.post("/")
 
 
 module.exports = router;

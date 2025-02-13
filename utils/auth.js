@@ -14,16 +14,17 @@ class Auth {
   }
 
   static isValidUUID(id) {
-    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    console.log(uuidRegex.test(id))
     return uuidRegex.test(id);
-  }
-  
+  }  
+
   static async signUp(credential) {
     const { data, error } = await supabaseClient.supabase.auth.signUp({
       email: credential.email,
       password: credential.password,
       options: {
-          emailRedirectTo: "https://project-genius-frontend.vercel.app/auth/verified"
+          emailRedirectTo: "https://project-genius-front-end.vercel.app/auth/verified"
       }
     });
     if (error) throw error;

@@ -57,7 +57,7 @@ class AppController {
         email,
         message,
       })
-      return res.status(200).json({ "message": "message has been sent"});
+      return res.status(201).json({ "message": "message has been sent"});
     } catch(err) {
       console.log(err);
       if (!(err.status)) return res.status(500).json(err.message)

@@ -12,6 +12,12 @@ require("dotenv").config();
 
 class App {
 
+    static duplicateField(message) {
+        const match = message.match(/unique constraint "([^"]+)"/);
+        const constraintName = match[1];
+        return constraintName;
+    }
+
     static async makePayment(details) {
         const supabaseUrl = process.env.SUPABASE_URL;
         const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -23,10 +29,6 @@ class App {
         if (error) throw error;
     }
         
-
-    static async submissionPage() {
-        
-    }
 
     static async sendMessage(messageInfo) {
         const { error } = await supabaseClient.supabase 

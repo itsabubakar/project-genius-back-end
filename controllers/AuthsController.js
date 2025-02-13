@@ -72,7 +72,7 @@ class AuthsController {
 
     try {
       await Auth.updatePassword(password, accessToken);
-      return res.status(201).json({ message: "Password Updated" });
+      return res.status(200).json({ message: "Password Updated" });
     } catch (err) {
       if (!err.status)
         return res.status(500).json({error: err.message});
