@@ -4,15 +4,11 @@
  * @copyright Project Genius 2025
  */
 
-import supabaseClient from './supabase';
+import supabaseClient from "./supabase";
 
 class User {
   static async insertUser(values) {
-    const { data, error } = await supabaseClient.supabase
-      .from("users")
-      .insert(values)
-      .select();
-
+    const { data, error } = await supabaseClient.supabase.rpc("insert_user_bypass_rls", values);
     if (error) throw error;
     return data;
   }
@@ -28,26 +24,21 @@ class User {
   }
 
   static async insertContestant(values) {
-    const { data, error } = await supabaseClient.supabase
-      .from("contestants")
-      .insert(values)
-      .select();
-
+    const {data, error} = await supabaseClient.supabase.rpc("insert_contestant_bypass_rls", values);
     if (error) throw error;
     return data;
   }
-
 
   static async update(values, id) {
     const { data, error } = await supabaseClient.supabase
       .from("contestants")
       .update(values)
-      .eq('user_id', id)
+      .eq("user_id", id)
       .select();
-    
+
     if (error) throw error;
     return data;
   }
 }
 
-module.exports = User; 
+module.exports = User;
