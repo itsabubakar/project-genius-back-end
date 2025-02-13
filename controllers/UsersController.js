@@ -62,7 +62,7 @@ class UsersController {
         faculty,
       });
       return res.status(201).json({
-        message: "SignUp complete",
+        message: "Verify email to complete signUp",
       });
     } catch (err) {
       console.log(err);
