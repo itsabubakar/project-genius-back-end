@@ -6,7 +6,7 @@ const port = 1245;
 const app = express();
 
 app.use(cors({
-  origin: 'https://project-genius-frontend.vercel.app/', // Allow all origins (you can restrict this later)
+  origin: '*', // Allow all origins (you can restrict this later)
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
