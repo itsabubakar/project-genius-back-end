@@ -24,10 +24,15 @@ class User {
   }
 
   static async insertContestant(values) {
-    const {data, error} = await supabaseClient.supabase.rpc("insert_contestant_bypass_rls", values);
+    const {data, error} = await supabaseClient
+    .supabase
+    .from("unverified_signups")
+    .insert(values)
+
     if (error) throw error;
     return data;
-  }
+  };
+   
 
   static async update(values, id) {
     const { data, error } = await supabaseClient.supabase
