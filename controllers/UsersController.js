@@ -48,10 +48,9 @@ class UsersController {
 
     try {
       const session = await Auth.signUp({ email, password });
-      console.log(session.user.id);
-      const data = await User.insertUser({
-        user_id: session.user.id,
-      });
+      // const data = await User.insertUser({
+      //   user_id: session.user.id,
+      // });
       await User.insertContestant({
         user_id: session.user.id,
         email,
