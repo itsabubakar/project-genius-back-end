@@ -26,7 +26,7 @@ router.post("/auth/reset", AuthsController.reset);
 router.patch("/auth/reset/finalize", AuthsController.finalizeReset);
 router.post("/teams", TeamsController.create);
 router.patch("/users/team", TeamsController.join);
-router.patch('/users', UsersController.updateUser);
+router.patch('/users', UsersController.updateContestant);
 // router.post("/users/finalize", UsersController.finalizeSignUp);
 router.post("/users", UsersController.SignUp);
 router.post("/")

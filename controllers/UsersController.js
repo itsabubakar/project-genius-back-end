@@ -12,25 +12,6 @@ class UsersController {
    * Class that provide function of all users endpoint
    */
 
-  // static async initiateSignUp(req, res) {
-  //   const { email, password } = req.body;
-  //   if (!email) return res.status(400).json({ error: "Missing email" });
-  //   if (!password) return res.status(400).json({ error: "Missing password" });
-
-  //   try {
-  //     const user = await Auth.signUp({ email, password });
-  //     return res
-  //       .status(200)
-  //       .json({ message: "Verify email to complete signUp" });
-  //   } catch (err) {
-  //     if (err.message === "User already registered")
-  //       return res.status(409).json({ error: err.message });
-  //     if (!err.status)
-  //       return res.status(500).json({error: err.message});
-  //     return res.status(err.status).json({ error: err.message });
-  //   }
-  // }
-
   static async SignUp(req, res) {
     const { email, password, firstName, lastName, role, phone, department, faculty} =
       req.body;
@@ -48,9 +29,6 @@ class UsersController {
 
     try {
       const session = await Auth.signUp({ email, password });
-      // const data = await User.insertUser({
-      //   user_id: session.user.id,
-      // });
       await User.insertContestant({
         user_id: session.user.id,
         email,
@@ -72,14 +50,14 @@ class UsersController {
     }
   }
 
-  static async updateUser(req, res) {
+  static async updateContestant(req, res) {
     const id = req.params.id;
     if (!id) return res.status(401).json({ message: "Unauthorized" });
     if (!Auth.isValidJWT(id))
       return res.status(400).json({ message: "id not a uuid" });
     const { firstName, lastName, phone } = req.body;
     try {
-      const user = await User.update(
+      const user = await User.updateContestant(
         {
           first_name: firstName,
           last_name: lastName,

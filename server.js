@@ -6,7 +6,7 @@ const port = 1245;
 const app = express();
 
 app.use(cors({
-  origin: '*', // Allow all origins (you can restrict this later)
+  origin: '*', // Allow all origins (you can restrict this later) 
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
@@ -20,3 +20,4 @@ app.listen(port, () => {
 });
 
 module.exports = app;
+

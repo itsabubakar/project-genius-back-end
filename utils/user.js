@@ -7,11 +7,11 @@
 import supabaseClient from "./supabase";
 
 class User {
-  static async insertUser(values) {
-    const { data, error } = await supabaseClient.supabase.rpc("insert_user_bypass_rls", values);
-    if (error) throw error;
-    return data;
-  }
+  // static async insertUser(values) {
+  //   const { data, error } = await supabaseClient.supabase.rpc("insert_user_bypass_rls", values);
+  //   if (error) throw error;
+  //   return data;
+  // }
 
   static async getContestant(id) {
     // console.log(id);
@@ -34,7 +34,7 @@ class User {
   };
    
 
-  static async update(values, id) {
+  static async updateContestants(values, id) {
     const { data, error } = await supabaseClient.supabase
       .from("contestants")
       .update(values)

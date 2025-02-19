@@ -15,15 +15,16 @@ class AuthsController {
 
   static async connect(req, res) {
     const { email, password } = req.body;
-    // console.log(email, password);
     if (!email) return res.status(400).json({ error: "Missing email" });
     if (!password) return res.status(400).json({ error: "Missing password" });
     try {
       const session = await Auth.signIn({ email, password })
-      // res.cookie("refresh_token", session.refresh_token);
       const user = await User.getContestant(session.user.id)
       return res.status(200).json({
         firstName: user.first_name,
+        lastName: user.lastName,
+        phone: user.phone,
+        email: user.email,
         initials: user.initials,
         role: user.role,
       });
