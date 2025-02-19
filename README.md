@@ -60,7 +60,7 @@ npm run start-server
 
 ### Documentation in OpenAPI yaml
    #### How to use it 
-   go to [Swagger Editor](https://editor.swagger.io/)
-   click on file menu
-   select import url
-   copy and paste [Yaml Description](https://raw.githubusercontent.com/itsabubakar/project-genius-back-end/refs/heads/main/projectgenius.1.0.0.yaml)
+   1. go to [Swagger Editor](https://editor.swagger.io/)
+   2. click on file menu
+   3. select import url
+   4. copy and paste [Yaml Description](https://raw.githubusercontent.com/itsabubakar/project-genius-back-end/refs/heads/main/projectgenius.1.0.0.yaml)
