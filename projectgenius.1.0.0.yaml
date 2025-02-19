@@ -1,0 +1,276 @@
+openapi: 3.0.0
+info: 
+  title: 'ProjectGenius API'
+  version: V1
+servers:
+  - url: https://b8d4-102-91-77-241.ngrok-free.app
+paths:
+  /users:
+    post:
+      summary: SignUp a User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: user email
+                  example: user123@gmail.com
+                password:
+                  type: string
+                  format: password
+                  example: password123
+                firstName:
+                  type: string
+                  description: user first name
+                  example: Salah
+                lastName:
+                  type: string
+                  description: user last name
+                  example: Mohammed
+                role:
+                  type: string
+                  description: user role, member or lead
+                  enum: [member, role]
+                phone:
+                  type: string
+                  description: user phone number
+                  example: '09076757943'
+                department:
+                  type: string
+                  description: department in school
+                  example: Physical and Health education
+                faculty:
+                  type: string
+                  description: faculty which department belongs to
+                  example: Education
+      responses:
+        201:
+          description: successful, verification mail sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum: [Verify email to complete SingUp]
+                    
+  /auth/connect:
+    post:
+      summary: SigIn a User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: user email
+                password:
+                  type: string
+                  description: user password
+      responses:
+        200:
+          description: successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  firstName:
+                    type: string
+                    example: Salah
+                  lastName:
+                    type: string
+                    example: Mohammed
+                  email:
+                    type: string
+                  phone: 
+                    type: string
+                  department:
+                    type: string
+                  team:
+                    type: string
+                    enum: ['string', 'null']
+                  initials:
+                    type: string
+                    example: SM
+                  role:
+                    type: string
+                    enum: [lead, member]
+  
+  /auth/disconnect:
+    delete:
+      summary: Logs User out
+      responses:
+        204:
+          description: successful logout, No conent
+          
+          
+  /auth/reset:
+    post:
+      summary: Initiates Password Reset
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: user email address
+                  example: user123@gmail.com
+      responses:
+        200:
+          description: reset link successful sent to email
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                   type: string
+                   enum: [Check your email for reset link]
+    
+  /auth/reset/finalize:
+    patch:
+      summary: Finalize Reset Password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  description: new password
+                  format: password
+                accessToken:
+                  type: string
+                  description: accessToken in redirection link
+      responses:
+        200:
+          description: reset successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum: [Password updated]
+  
+  /app/dashboard:
+    get:
+      summary: Dashboard Overview
+      responses:
+        200:
+          description: operation is successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  currentStage:
+                    type: string
+                    description: current stage of competition
+                  team:
+                    type: string
+                    description: team name
+                  members:
+                    description: array of team members
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        firstname:
+                          type: string
+                        role: 
+                          type: string
+                          enum: [lead, member]
+                        initials:
+                          type: string
+                          example: SM
+                          
+  /app/contact:
+    post:
+      description: send a contact us message
+      requestBody: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: user full name
+                email:
+                  type: string
+                  description: user email
+                message:
+                  type: string
+      responses:
+        201:
+          description: successful creation contact us message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum: [message has been sent]
+                  
+  /teams:
+    post:
+      summary: Create A Team
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamName:
+                  type: string
+                  description: desired team name
+      responses:
+        201:
+          description: successful creation of team
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: 
+                    type: string
+                    enum: [successful]
+                  inviteCode:
+                    type: string
+                    description: invite code
+  /users/team:
+    patch:
+      summary: Joining A Team
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                inviteCode:
+                  type: string
+                  description: valid team code
+      responses:
+        200:
+          description: successfull joining of team
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum: [successful]
