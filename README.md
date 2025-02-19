@@ -56,4 +56,11 @@ npm run start-server
 ```
 ---
 ## Documentation
-[Check out API documentation here](https://github.com/itsabubakar/project-genius-back-end/blob/main/PGApi.md)
+[Check out API in markdown documentation here](https://github.com/itsabubakar/project-genius-back-end/blob/main/PGApi.md) 
+
+### Documentation in OpenAPI yaml
+   #### How to use it 
+   go to [Swagger Editor](https://editor.swagger.io/)
+   click on file menu
+   select import url
+   copy and paste [Yaml Description](https://raw.githubusercontent.com/itsabubakar/project-genius-back-end/refs/heads/main/projectgenius.1.0.0.yaml)
