@@ -30,17 +30,32 @@ class Team {
     const { data, error } = await supabaseClient.supabase
       .from("teams")
       .insert(details)
-      .select("team_id, team_name");
+      .select("team_id, team_name,");
     if (error) throw error;
     return data[0];
   }
 
   static async getTeam(teamId) {
+    if (!teamId)
+      return null
     const {data, error} = await supabaseClient.supabase
       .from("teams")
       .select("team_name")
       .eq("team_id", teamId)
 
+    if (error) throw error;
+    if (!data)
+      return null;
+    return data[0];
+  }
+
+  static async getTeamByinvite(inviteCode) {
+    if (!inviteCode)
+      return null
+    const {data, error} = await supabaseClient.supabase
+      .from("teams")
+      .select("team_id")
+      .eq("invite_code", inviteCode)
     if (error) throw error;
     if (!data)
       return null;

@@ -34,7 +34,7 @@ class User {
   };
    
 
-  static async updateContestants(values, id) {
+  static async updateContestant(values, id) {
     const { data, error } = await supabaseClient.supabase
       .from("contestants")
       .update(values)

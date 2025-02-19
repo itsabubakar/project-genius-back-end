@@ -45,9 +45,9 @@ class TeamsController {
       })
 
       console.log(team);
-      await User.update({team_id: team.team_id}, user.id);
+      await User.updateContestant({team_id: team.team_id}, user.id);
 
-      res.status(201).json({ message: "successful", inviteCode: team.team_id})
+      res.status(201).json({ message: "successful", inviteCode: team.invite_code})
     } catch(err) {
       if (err.code === "23505") {
         const duplicateField = App.duplicateField(err.message);
@@ -70,12 +70,11 @@ class TeamsController {
       const user = await supabaseClient.getUser();
       if (!user) 
         return res.status(401).json({ error: "Unauthorized" });
-      if (!Auth.isValidUUID(inviteCode))
-        return res.status(400).json({ error: "Invalid inviteCode"})
-      const team  = Team.getTeam(inviteCode);
+      const team  = await Team.getTeamByinvite(inviteCode);
+      console.log(team);
       if (!team)
         return res.status(400).json({ error: "Not a valid team code"})
-      await User.update({ team_id: inviteCode}, user.id);
+      await User.updateContestant({ team_id: team.team_id}, user.id);
       return res.status(200).json({ message: "successful" });
     } catch(err) {
       if (!err.status)

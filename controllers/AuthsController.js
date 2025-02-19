@@ -6,6 +6,7 @@
  */
 
 import Auth from "../utils/auth";
+import Team from "../utils/team";
 import User from "../utils/user";
 
 class AuthsController {
@@ -18,8 +19,10 @@ class AuthsController {
     if (!email) return res.status(400).json({ error: "Missing email" });
     if (!password) return res.status(400).json({ error: "Missing password" });
     try {
-      const session = await Auth.signIn({ email, password })
-      const user = await User.getContestant(session.user.id)
+      const session = await Auth.signIn({ email, password });
+      const user = await User.getContestant(session.user.id);
+      const team = await Team.getTeam(user.team_id);
+      console.log(team);
       return res.status(200).json({
         firstName: user.first_name,
         lastName: user.lastName,
@@ -27,6 +30,8 @@ class AuthsController {
         email: user.email,
         initials: user.initials,
         role: user.role,
+        department: user.department,
+        team,
       });
     } catch (err) {
       if (!err.status)
