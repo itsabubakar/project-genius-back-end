@@ -6,6 +6,8 @@
 
 import User from "../utils/user";
 import Auth from "../utils/auth";
+import Team from "../utils/team";
+
 
 class UsersController {
   /**
@@ -13,7 +15,7 @@ class UsersController {
    */
 
   static async SignUp(req, res) {
-    const { email, password, firstName, lastName, role, phone, department, faculty} =
+    const { email, password, firstName, lastName, role, phone, department, faculty, inviteCode} =
       req.body;
 
     if (!email) res.status(400).json({ error: "Missing email" });
@@ -28,6 +30,7 @@ class UsersController {
     }
 
     try {
+      console.log(inviteCode);
       const session = await Auth.signUp({ email, password });
       await User.insertContestant({
         user_id: session.user.id,
@@ -38,6 +41,7 @@ class UsersController {
         phone,
         department,
         faculty,
+        invite_code: inviteCode
       });
       return res.status(201).json({
         message: "Verify email to complete signUp",

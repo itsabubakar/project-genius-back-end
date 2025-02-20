@@ -52,6 +52,7 @@ class Team {
   static async getTeamByinvite(inviteCode) {
     if (!inviteCode)
       return null
+    console.log(inviteCode)
     const {data, error} = await supabaseClient.supabase
       .from("teams")
       .select("team_id")
@@ -59,6 +60,7 @@ class Team {
     if (error) throw error;
     if (!data)
       return null;
+    console.log(data[0]);
     return data[0];
   }
 
