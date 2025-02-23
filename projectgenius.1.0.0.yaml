@@ -1,9 +1,15 @@
-openapi: 3.0.0
-info: 
-  title: 'ProjectGenius API'
+openapi: 3.0.3
+info:
+  title: ProjectGenius API
   version: V1
 servers:
-  - url: https://b8d4-102-91-77-241.ngrok-free.app
+  - url: https://b45b-102-91-72-177.ngrok-free.app
+# components:
+#   securitySchemes:
+#     bearerAuth:
+#       type: http
+#       scheme: bearer
+#       bearerFormat: JWT
 paths:
   /users:
     post:
@@ -33,7 +39,9 @@ paths:
                 role:
                   type: string
                   description: user role, member or lead
-                  enum: [member, role]
+                  enum:
+                    - 'member'
+                    - 'lead'
                 phone:
                   type: string
                   description: user phone number
@@ -46,8 +54,20 @@ paths:
                   type: string
                   description: faculty which department belongs to
                   example: Education
+                token:
+                  type: string
+                  description: the team token if available
+              required:
+                  - email
+                  - password
+                  - firstName
+                  - lastName
+                  - role
+                  - phone
+                  - department
+                  - faculty
       responses:
-        201:
+        '201':
           description: successful, verification mail sent
           content:
             application/json:
@@ -56,8 +76,8 @@ paths:
                 properties:
                   message:
                     type: string
-                    enum: [Verify email to complete SingUp]
-                    
+                    enum:
+                      - Verify email to complete SingUp
   /auth/connect:
     post:
       summary: SigIn a User
@@ -74,7 +94,7 @@ paths:
                   type: string
                   description: user password
       responses:
-        200:
+        '200':
           description: successful login
           content:
             application/json:
@@ -89,28 +109,29 @@ paths:
                     example: Mohammed
                   email:
                     type: string
-                  phone: 
+                  phone:
                     type: string
                   department:
                     type: string
                   team:
                     type: string
-                    enum: ['string', 'null']
+                    enum:
+                      - string
+                      - 'null'
                   initials:
                     type: string
                     example: SM
                   role:
                     type: string
-                    enum: [lead, member]
-  
+                    enum:
+                      - lead
+                      - member
   /auth/disconnect:
     delete:
       summary: Logs User out
       responses:
-        204:
+        '204':
           description: successful logout, No conent
-          
-          
   /auth/reset:
     post:
       summary: Initiates Password Reset
@@ -125,7 +146,7 @@ paths:
                   description: user email address
                   example: user123@gmail.com
       responses:
-        200:
+        '200':
           description: reset link successful sent to email
           content:
             application/json:
@@ -133,9 +154,9 @@ paths:
                 type: object
                 properties:
                   message:
-                   type: string
-                   enum: [Check your email for reset link]
-    
+                    type: string
+                    enum:
+                      - Check your email for reset link
   /auth/reset/finalize:
     patch:
       summary: Finalize Reset Password
@@ -153,7 +174,7 @@ paths:
                   type: string
                   description: accessToken in redirection link
       responses:
-        200:
+        '200':
           description: reset successful
           content:
             application/json:
@@ -162,13 +183,15 @@ paths:
                 properties:
                   message:
                     type: string
-                    enum: [Password updated]
-  
+                    enum:
+                      - Password updated
   /app/dashboard:
     get:
       summary: Dashboard Overview
+      # security:
+      #   -  bearerAuth: []
       responses:
-        200:
+        '200':
           description: operation is successful
           content:
             application/json:
@@ -189,17 +212,18 @@ paths:
                       properties:
                         firstname:
                           type: string
-                        role: 
+                        role:
                           type: string
-                          enum: [lead, member]
+                          enum:
+                            - lead
+                            - member
                         initials:
                           type: string
                           example: SM
-                          
   /app/contact:
     post:
       description: send a contact us message
-      requestBody: 
+      requestBody:
         content:
           application/json:
             schema:
@@ -214,7 +238,7 @@ paths:
                 message:
                   type: string
       responses:
-        201:
+        '201':
           description: successful creation contact us message
           content:
             application/json:
@@ -223,11 +247,13 @@ paths:
                 properties:
                   message:
                     type: string
-                    enum: [message has been sent]
-                  
+                    enum:
+                      - message has been sent
   /teams:
     post:
       summary: Create A Team
+      # security:
+      #   - bearerAuth: []
       requestBody:
         content:
           application/json:
@@ -238,22 +264,25 @@ paths:
                   type: string
                   description: desired team name
       responses:
-        201:
+        '201':
           description: successful creation of team
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  message: 
+                  message:
                     type: string
-                    enum: [successful]
+                    enum:
+                      - successful
                   inviteCode:
                     type: string
                     description: invite code
   /users/team:
     patch:
       summary: Joining A Team
+      # security: 
+      #   - bearerAuth: []
       requestBody:
         content:
           application/json:
@@ -264,7 +293,7 @@ paths:
                   type: string
                   description: valid team code
       responses:
-        200:
+        '200':
           description: successfull joining of team
           content:
             application/json:
@@ -273,4 +302,5 @@ paths:
                 properties:
                   message:
                     type: string
-                    enum: [successful]
+                    enum:
+                      - successful
