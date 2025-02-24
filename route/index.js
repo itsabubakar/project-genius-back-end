@@ -19,7 +19,7 @@ router.get("/", (req, res) => {
 
 router.post("/app/contact", AppController.contactUs);
 router.get("/app/dashboard", AppController.dashboard);
-router.post("/app/payment/hook", AppController.paymentHook);
+router.post("/app/payment-hook", AppController.paymentHook);
 router.post("/auth/connect", AuthsController.connect);
 router.delete("/auth/disconnect", AuthsController.disconnect);
 router.post("/auth/reset", AuthsController.reset);
@@ -28,7 +28,7 @@ router.post("/teams", TeamsController.create);
 router.patch("/users/team", TeamsController.join);
 router.patch('/users', UsersController.updateContestant);
 router.post("/users", UsersController.SignUp);
-router.post("/")
+// router.get("/app/payment", AppController.makePayment);
 
 
 module.exports = router;
