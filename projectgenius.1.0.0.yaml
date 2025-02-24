@@ -324,15 +324,9 @@ paths:
                     type: string
                     description: invite code
                     
-  /teams/{team_id}/solutions:
+  /teams/solutions:
     post:
       summary: Submit a solution
-      parameters:
-        - schema:
-            type: string
-          in: path
-          name: team_id
-          required: true
       requestBody:
         content:
           application/json:
@@ -350,6 +344,3 @@ paths:
       responses:
         '201':
           description: Created
-                  
-      
-  
