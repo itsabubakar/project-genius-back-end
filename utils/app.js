@@ -44,7 +44,7 @@ class App {
               metadata: {
                 user_id: details.user_id
               },
-              callback_url: "https://project-genius-front-end.vercel.app/application",
+              callback_url: "https://www.projectgenius.com.ng/application",
             },
             {
               headers: {
