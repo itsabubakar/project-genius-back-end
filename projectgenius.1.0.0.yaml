@@ -78,6 +78,34 @@ paths:
                     type: string
                     enum:
                       - Verify email to complete SingUp
+                      
+  /users/team:
+    patch:
+      summary: Joining A Team
+      # security: 
+      #   - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                inviteCode:
+                  type: string
+                  description: valid team code
+      responses:
+        '200':
+          description: successfull joining of team
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - successful
+
   /auth/connect:
     post:
       summary: SigIn a User
@@ -196,30 +224,46 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  currentStage:
-                    type: string
-                    description: current stage of competition
-                  team:
-                    type: string
-                    description: team name
-                  members:
-                    description: array of team members
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        firstname:
-                          type: string
-                        role:
-                          type: string
-                          enum:
-                            - lead
-                            - member
-                        initials:
-                          type: string
-                          example: SM
+                oneOf:
+                  - type: object
+                    properties:
+                      message:
+                        type: string
+                        enum: ['please join a team']
+                        description: for team member with no team
+                  - type: object
+                    properties:
+                      message:
+                        type: string
+                        enum: ['please create a team']
+                        description: for team lead with no team
+                      paymentURL:
+                        type: string
+                        description: url for paymentbutton
+                  - type: object
+                    properties:
+                      currentStage:
+                        type: string
+                        description: current stage of competition
+                      team:
+                        type: string
+                        description: team name
+                      members:
+                        description: array of team members
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                              firstname:
+                                type: string
+                              role:
+                                type: string
+                                enum:
+                                  - lead
+                                  - member
+                              initials:
+                                type: string
+                                example: SM
   /app/contact:
     post:
       description: send a contact us message
@@ -249,6 +293,7 @@ paths:
                     type: string
                     enum:
                       - message has been sent
+ 
   /teams:
     post:
       summary: Create A Team
@@ -278,29 +323,33 @@ paths:
                   inviteCode:
                     type: string
                     description: invite code
-  /users/team:
-    patch:
-      summary: Joining A Team
-      # security: 
-      #   - bearerAuth: []
+                    
+  /teams/{team_id}/solutions:
+    post:
+      summary: Submit a solution
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: team_id
+          required: true
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                inviteCode:
+                title:
                   type: string
-                  description: valid team code
+                category:
+                  type: string
+                problem:
+                  type: string
+                solution:
+                  type: string
       responses:
-        '200':
-          description: successfull joining of team
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    enum:
-                      - successful
+        '201':
+          description: Created
+                  
+      
+  
