@@ -40,7 +40,7 @@ class AppController {
       const currentStage = await Stage.curStage();
       return res.json({
         currentStage,
-        team: team.team_name,
+        team,
         members,
       });
     } catch (err) {
