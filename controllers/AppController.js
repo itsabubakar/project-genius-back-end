@@ -96,28 +96,36 @@ class AppController {
     const userId = metadata.user_id;
 
     try {
-      const response = await axios.get(`https://api.paystack.co/transaction/verify/${reference}`, {
-        headers: { Authorization: `Bearer ${secret}` },
+      await App.makePayment({
+      email: customer.email,
+      ref: reference,
+      user_id: userId
       });
-
-      const { status, data } = response.data;
-
-      if (status && data.status === 'success') {
-        await App.makePayment({
-          email: customer.email,
-          ref: reference,
-          user_id: userId
-        });
-
-        console.log(`Payment verified for ${customer.email}. Reference: ${reference}`);
-        return res.status(200).json({ message: 'Payment was registered successfully' });
-      } else {
-        console.error(`Failed to verify payment for reference: ${reference}`);
-        return res.status(400).json({ message: 'Payment verification failed' });
-      }
+      console.log(`Payment verified for ${customer.email}. Reference: ${reference}`);
+      return res.status(200).json({ message: 'Payment was registered successfully' });
     } catch (err) {
       console.error('Webhook Processing Error:', err.message);
       return res.status(err.response?.status || 500).json({ message: err.message });
+    }
+  }
+
+  static  async verifyPayment(req, res) {
+    const { ref } = req.params;
+    const secret = process.env.PAYSTACK_SECRET_KEY;
+  
+    try {
+      const response = await axios.get(`https://api.paystack.co/transaction/verify/${ref}`, {
+        headers: { Authorization: `Bearer ${secret}` },
+      });
+  
+      if (response.data.data.status === "success") {
+        return res.json({ status: "success" });
+      } else {
+        return res.json({ status: "failed" });
+      }
+    } catch (err) {
+      console.error("Error verifying payment:", err);
+      return res.status(500).json({ status: "error", message: "Verification failed" });
     }
   }
 }

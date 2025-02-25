@@ -264,6 +264,27 @@ paths:
                               initials:
                                 type: string
                                 example: SM
+  /app/verify-payment/{ref}:
+    get:
+      summary: Verify payment status
+      parameters:
+        - name: ref
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                    enum: ['success', 'failed']
+          
   /app/contact:
     post:
       description: send a contact us message

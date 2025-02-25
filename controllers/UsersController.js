@@ -30,8 +30,9 @@ class UsersController {
     }
 
     try {
-      console.log(inviteCode);
+      // console.log(inviteCode);
       const session = await Auth.signUp({ email, password });
+      console.log(session);
       await User.insertContestant({
         user_id: session.user.id,
         email,

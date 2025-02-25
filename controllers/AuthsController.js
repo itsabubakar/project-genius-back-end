@@ -22,7 +22,6 @@ class AuthsController {
       const session = await Auth.signIn({ email, password });
       const user = await User.getContestant(session.user.id);
       const team = await Team.getTeam(user.team_id);
-      console.log(team);
       return res.status(200).json({
         firstName: user.first_name,
         lastName: user.lastName,
