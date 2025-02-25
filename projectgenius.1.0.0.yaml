@@ -3,7 +3,7 @@ info:
   title: ProjectGenius API
   version: V1
 servers:
-  - url: https://b45b-102-91-72-177.ngrok-free.app
+  - url: https://project-genius-back-end-1.onrender.com
 # components:
 #   securitySchemes:
 #     bearerAuth:
