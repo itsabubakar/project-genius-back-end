@@ -30,7 +30,7 @@ class AuthsController {
         initials: user.initials,
         role: user.role,
         department: user.department,
-        team,
+        team: team.team_name,
       });
     } catch (err) {
       if (!err.status)
