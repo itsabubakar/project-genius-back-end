@@ -36,7 +36,11 @@ class TeamsController {
       console.log(team);
       await User.updateContestant({team_id: team.team_id}, user.id);
 
-      res.status(201).json({ message: "successful", inviteCode: team.invite_code})
+      res.status(201).json({
+        message: "successful", 
+        inviteCode: team.invite_code,
+        teamName: team.team_name
+      })
     } catch(err) {
       if (err.code === "23505") {
         const duplicateField = App.duplicateField(err.message);

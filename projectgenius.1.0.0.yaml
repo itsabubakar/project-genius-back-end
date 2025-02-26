@@ -3,7 +3,7 @@ info:
   title: ProjectGenius API
   version: V1
 servers:
-  - url: https://project-genius-back-end-1.onrender.com
+  - url: https://b45b-102-91-72-177.ngrok-free.app
 # components:
 #   securitySchemes:
 #     bearerAuth:
@@ -344,6 +344,9 @@ paths:
                   inviteCode:
                     type: string
                     description: invite code
+                  teamName:
+                    type: string
+                    description: team name
                     
   /teams/solutions:
     post:
@@ -365,3 +368,6 @@ paths:
       responses:
         '201':
           description: Created
+                  
+      
+  
