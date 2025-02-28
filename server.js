@@ -7,7 +7,7 @@ const app = express();
 
 app.use(cors({
   origin: '*', // Allow all origins (you can restrict this later) 
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 app.options('*', cors()); // Handle preflight requests
