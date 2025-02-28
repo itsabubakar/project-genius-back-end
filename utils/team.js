@@ -30,7 +30,7 @@ class Team {
     const { data, error } = await supabaseClient.supabase
       .from("teams")
       .insert(details)
-      .select("invite_code, team_name");
+      .select("invite_code, team_name, team_id");
     if (error) throw error;
     return data[0];
   }
