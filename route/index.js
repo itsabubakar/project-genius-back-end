@@ -22,6 +22,7 @@ router.post("/app/payment-hook", AppController.paymentHook);
 router.get("/app/verify-payment/:ref", AppController.verifyPayment);    
 router.post("/auth/connect", AuthsController.connect);
 router.delete("/auth/disconnect", AuthsController.disconnect);
+router.post("/auth/reconfirm", AuthsController.resendConfirmation);
 router.post("/auth/reset", AuthsController.reset);
 router.patch("/auth/reset/finalize", AuthsController.finalizeReset);
 router.post("/teams", TeamsController.create);

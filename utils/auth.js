@@ -75,6 +75,23 @@ class Auth {
     // console.log(data.session);
     return data.session;
   }
+
+  static async sendConfirmation(email, password) {
+     const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+    });
+
+    if (error && error.message.includes("Email not confirmed")) {
+        console.log("Resending confirmation email...");
+        await supabase.auth.resend({
+            type: "signup",
+            email,
+        });
+        return true
+    }
+    throw error
+  }
 }
 
 module.exports = Auth;
