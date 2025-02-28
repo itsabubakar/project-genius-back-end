@@ -36,6 +36,7 @@ class AppController {
           paymentURL,});
       }
       const team = await Team.getTeam(contestant.team_id);
+      
       const members = await Team.getMembers(contestant.team_id);
       const currentStage = await Stage.curStage();
       return res.json({
