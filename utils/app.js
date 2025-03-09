@@ -24,7 +24,7 @@ class App {
           metadata: {
             user_id: details.user_id,
           },
-          callback_url: "https://www.projectgenius.com.ng/application",
+          callback_url: "http://localhost:3000/application",
         },
         {
           headers: {
