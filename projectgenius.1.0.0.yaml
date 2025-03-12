@@ -264,6 +264,22 @@ paths:
                               initials:
                                 type: string
                                 example: SM
+                                
+  /app/payment/paid:
+    get:
+      summary: Get payment status
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  is_paid:
+                    type: string
+                    
+  
   /app/verify-payment/{ref}:
     get:
       summary: Verify payment status
@@ -368,6 +384,3 @@ paths:
       responses:
         '201':
           description: Created
-                  
-      
-  
