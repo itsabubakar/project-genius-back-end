@@ -110,6 +110,21 @@ class AppController {
     }
   }
 
+  static async paymentStatus(req, res) {
+    try {
+      const user = await User.getContestant(session.user.id);
+      if (user.role  === "lead") {
+        const is_paid  = await App.isPaid(user.user_id);
+        return res.json({ is_paid, })
+      }
+      return res.status(403).send()
+    } catch(err) {
+      if (!err.status)
+        return res.status(500).json({error: err.message});
+      return res.status(err.status).json({ error: err.message });
+    }
+  }
+
   static  async verifyPayment(req, res) {
     const { ref } = req.params;
     const secret = process.env.PAYSTACK_SECRET_KEY;

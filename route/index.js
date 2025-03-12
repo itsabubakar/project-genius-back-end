@@ -19,7 +19,8 @@ router.get("/", (req, res) => {
 router.post("/app/contact", AppController.contactUs);
 router.get("/app/dashboard", AppController.dashboard);
 router.post("/app/payment-hook", AppController.paymentHook);
-router.get("/app/verify-payment/:ref", AppController.verifyPayment);    
+router.get("/app/verify-payment/:ref", AppController.verifyPayment);
+router.get("/app/payment/paid", AppController.paymentStatus);   
 router.post("/auth/connect", AuthsController.connect);
 router.delete("/auth/disconnect", AuthsController.disconnect);
 router.post("/auth/reconfirm", AuthsController.resendConfirmation);
