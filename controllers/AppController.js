@@ -112,9 +112,12 @@ class AppController {
 
   static async paymentStatus(req, res) {
     try {
-      const user = await User.getContestant(session.user.id);
-      if (user.role  === "lead") {
-        const is_paid  = await App.isPaid(user.user_id);
+      const user = await supabaseClient.getUser();
+      if (!user)
+        return res.status(401).json({ error: "Unauthorized"})
+      const contestant = await User.getContestant(user.id);
+      if (contestant.role  === "lead") {
+        const is_paid  = await App.isPaid(contestant.user_id);
         return res.json({ is_paid, })
       }
       return res.status(403).send()

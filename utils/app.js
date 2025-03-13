@@ -50,7 +50,7 @@ class App {
     
     if (error)
       throw error;
-    if (data.lenght > 0)
+    if (data.length > 0)
       return true
     else
       return false
