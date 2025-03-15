@@ -57,8 +57,8 @@ class App {
   }
 
   static async makePayment(details) {
-    const supabaseUrl = process.env.SUPABASE_DEV_URL;
-    const supabaseKey = process.env.SUPABASE_DEV_SERVICE_ROLE_KEY;
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     const { error } = await supabase.from("payments").insert(details);
