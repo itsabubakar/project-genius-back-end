@@ -6,6 +6,7 @@
  */
 
 import Auth from "../utils/auth";
+import App from "../utils/app";
 import Team from "../utils/team";
 import User from "../utils/user";
 
@@ -19,10 +20,10 @@ class AuthsController {
     if (!email) return res.status(400).json({ error: "Missing email" });
     if (!password) return res.status(400).json({ error: "Missing password" });
     try {
+      let is_paid
       const session = await Auth.signIn({ email, password });
       const user = await User.getContestant(session.user.id);
       const team = await Team.getTeam(user.team_id);
-      console.log(team);
       return res.status(200).json({
         firstName: user.first_name,
         lastName: user.lastName,
@@ -31,7 +32,7 @@ class AuthsController {
         initials: user.initials,
         role: user.role,
         department: user.department,
-        team,
+        team: team?.team_name,
       });
     } catch (err) {
       if (!err.status)
@@ -79,6 +80,22 @@ class AuthsController {
     try {
       await Auth.updatePassword(password, accessToken);
       return res.status(200).json({ message: "Password Updated" });
+    } catch (err) {
+      if (!err.status)
+        return res.status(500).json({error: err.message});
+      return res.status(err.status).json({ error: err.message });
+    }
+  }
+
+  static async resendConfirmation(req, res) {
+    const { email, password } = req.body;
+    if (!email)
+      return res.status(400).json({ error: "Missing email" })
+    if (!password)
+      return res.status(400).json({ error: "Missing password"})
+    try {
+      await Auth.sendConfirmation(email, password);
+      return res.status(200).json({ "message": "Confirmation mail sent"})
     } catch (err) {
       if (!err.status)
         return res.status(500).json({error: err.message});

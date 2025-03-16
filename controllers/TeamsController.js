@@ -5,7 +5,7 @@
  */
 
 import supabaseClient from "../utils/supabase";
-import Auth from "../utils/auth";
+import Solution from "../utils/solution";
 import App from "../utils/app"
 import Team from "../utils/team";
 import User from "../utils/user";
@@ -15,17 +15,6 @@ class TeamsController {
   /**
    *  implement all /teams endpoints
    */
-
-  static async getAll(req, res) {
-    try {
-      const teams = await supabaseClient.getTeams();
-      return res.status(200).json(teams);
-    } catch (err) {
-      if (!err.status)
-        return res.status(500).json({error: err.message});
-      return res.status(err.status).json({ error: err.message });
-    }
-  }
 
   static async create(req, res) {
     const { teamName } = req.body;
@@ -47,7 +36,11 @@ class TeamsController {
       console.log(team);
       await User.updateContestant({team_id: team.team_id}, user.id);
 
-      res.status(201).json({ message: "successful", inviteCode: team.invite_code})
+      res.status(201).json({
+        message: "successful", 
+        inviteCode: team.invite_code,
+        teamName: team.team_name
+      })
     } catch(err) {
       if (err.code === "23505") {
         const duplicateField = App.duplicateField(err.message);
@@ -59,6 +52,17 @@ class TeamsController {
         return res.status(500).json({ error: err.message, code: err.code });
 
       return res.status(err.status).json({ error: err.message})
+    }
+  }
+
+  static async getAll(req, res) {
+    try {
+      const teams = await supabaseClient.getTeams();
+      return res.status(200).json(teams);
+    } catch (err) {
+      if (!err.status)
+        return res.status(500).json({error: err.message});
+      return res.status(err.status).json({ error: err.message });
     }
   }
 
@@ -79,6 +83,39 @@ class TeamsController {
     } catch(err) {
       if (!err.status)
         return res.status(500).json({ error: err.message });
+      return res.status(err.status).json({ error: err.message });
+    }
+  }
+
+  static async makeSubmission(req, res) {
+    const { title, problem, category, solution } = req.body
+    if (!title)
+      return res.status(400).json({ error: "Missing title" })
+    if (!problem)
+      return res.status(400).json({ error: "Missing problem field" })
+    if (!category)
+      return res.status(400).json({ error: "Missing category" })
+    if (!solution)
+      return res.status(400).json({ error: "Missing solution" })
+    try {
+      const user = await supabaseClient.getUser();
+      if (!user)
+        return res.status(401).json({ error: "Unauthorized" });
+      const contestant = await User.getContestant(user.id)
+      if (contestant.role !== "lead")
+        return res.status(401).json({ error: "Unauthorized" });
+      await Solution.create({
+        team_id: contestant.team_id,
+        title,
+        problem,
+        category,
+        solution,
+      })
+      return res.status(201).send()
+    } catch(err) {
+      console.log(err);
+      if (!err.status)
+        return res.status(500).json({error: err.message});
       return res.status(err.status).json({ error: err.message });
     }
   }

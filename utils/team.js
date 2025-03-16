@@ -30,7 +30,7 @@ class Team {
     const { data, error } = await supabaseClient.supabase
       .from("teams")
       .insert(details)
-      .select("team_id, team_name,");
+      .select("invite_code, team_name, team_id");
     if (error) throw error;
     return data[0];
   }
@@ -40,7 +40,7 @@ class Team {
       return null
     const {data, error} = await supabaseClient.supabase
       .from("teams")
-      .select("team_name")
+      .select("team_name, invite_code")
       .eq("team_id", teamId)
 
     if (error) throw error;

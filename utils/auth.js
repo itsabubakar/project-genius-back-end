@@ -24,7 +24,7 @@ class Auth {
       email: credential.email,
       password: credential.password,
       options: {
-          emailRedirectTo: "https://project-genius-front-end.vercel.app/auth/verified"
+          emailRedirectTo: "https://www.projectgenius.com.ng/auth/verified"
       }
     });
     if (error) throw error;
@@ -41,7 +41,7 @@ class Auth {
     const { data, error } = await supabaseClient
     .supabase.auth.resetPasswordForEmail(
       email, {
-        redirectTo: "https://project-genius-front-end.vercel.app/auth/reset-password"
+        redirectTo: "https://project-genius-front-end.vercel.app/auth/reset-adpassword"
       }
     );
     if (error) throw error;
@@ -74,6 +74,23 @@ class Auth {
     if (error) throw error;
     // console.log(data.session);
     return data.session;
+  }
+
+  static async sendConfirmation(email, password) {
+     const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+    });
+
+    if (error && error.message.includes("Email not confirmed")) {
+        console.log("Resending confirmation email...");
+        await supabase.auth.resend({
+            type: "signup",
+            email,
+        });
+        return true
+    }
+    throw error
   }
 }
 
