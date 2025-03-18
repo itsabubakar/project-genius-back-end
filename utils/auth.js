@@ -41,7 +41,7 @@ class Auth {
     const { data, error } = await supabaseClient
     .supabase.auth.resetPasswordForEmail(
       email, {
-        redirectTo: "https://project-genius-front-end.vercel.app/auth/reset-adpassword"
+        redirectTo: "https://www.projectgenius.com.ng/reset-adpassword"
       }
     );
     if (error) throw error;

@@ -20,7 +20,6 @@ class AuthsController {
     if (!email) return res.status(400).json({ error: "Missing email" });
     if (!password) return res.status(400).json({ error: "Missing password" });
     try {
-      let is_paid
       const session = await Auth.signIn({ email, password });
       const user = await User.getContestant(session.user.id);
       const team = await Team.getTeam(user.team_id);
