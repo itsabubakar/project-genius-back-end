@@ -15,8 +15,16 @@ class UsersController {
    */
 
   static async SignUp(req, res) {
-    const { email, password, firstName, lastName, role, phone, department, faculty, inviteCode} =
-      req.body;
+    const { email, 
+      password, 
+      firstName, 
+      lastName, 
+      role, 
+      phone, 
+      department, 
+      faculty, 
+      // inviteCode
+    } = req.body;
 
     if (!email) res.status(400).json({ error: "Missing email" });
     if (!password) res.status(400).json({ error: "Missing password" });
@@ -42,7 +50,7 @@ class UsersController {
         phone,
         department,
         faculty,
-        invite_code: inviteCode
+        // invite_code: inviteCode
       });
       return res.status(201).json({
         message: "Verify email to complete signUp",
