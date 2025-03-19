@@ -19,7 +19,7 @@ class App {
         "https://api.paystack.co/transaction/initialize",
         {
           email: details.email,
-          amount: 5000 * 100,
+          amount: 5200 * 100,
           currency: "NGN",
           metadata: {
             user_id: details.user_id,
