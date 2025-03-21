@@ -16,8 +16,8 @@ class SupabaseClient {
    */
 
   constructor() {
-    this.supabaseURL = process.env.SUPABASE_DEV_URL;
-    this.supabaseKey = process.env.SUPABASE_DEV_KEY;
+    this.supabaseURL = process.env.SUPABASE_URL;
+    this.supabaseKey = process.env.SUPABASE_KEY;
     // console.log(this.supabaseURL, this.supabaseKey);
     this.supabase = createClient(this.supabaseURL, this.supabaseKey);
   }
