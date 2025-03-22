@@ -26,7 +26,7 @@ jobs:
             npm install
 
             if [ "$GITHUB_REF_NAME" = "main" ]; then
-              pm2 restart my-app-prod --update-env
+              pm2 restart my-app-prod
             elif [ "$GITHUB_REF_NAME" = "dev" ]; then
-              pm2 restart my-app-test --update-env
+              pm2 restart my-app-test
             fi
