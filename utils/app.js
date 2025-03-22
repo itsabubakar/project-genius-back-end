@@ -5,10 +5,15 @@
  * @license LicenseHereIfApplicable
  */
 
-const { createClient } = require("@supabase/supabase-js");
 import supabaseClient from "./supabase";
+
+const { createClient } = require("@supabase/supabase-js");
 const axios = require("axios");
-require("dotenv").config();
+const dotenv = require("dotenv");
+const path = require("path");
+
+const envFile = `.env.${process.env.NODE_ENV || "production"}`;
+dotenv.config({ path: path.resolve(__dirname, envFile) });
 
 class App {
   static async getPaymentURL(details) {
