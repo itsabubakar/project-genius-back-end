@@ -4,8 +4,14 @@
  * @copyright Project Genius 2025
  */
 
+
 import { createClient } from "@supabase/supabase-js";
-require("dotenv").config();
+
+const dotenv = require("dotenv");
+const path = require("path");
+
+const envFile = `.env.${process.env.NODE_ENV || "production"}`;
+dotenv.config({ path: path.resolve(__dirname, envFile) });
 
 // Create a single supabase client for interacting with your database
 

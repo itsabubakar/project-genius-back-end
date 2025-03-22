@@ -2,7 +2,7 @@ import express from "express";
 import router from "./route/index";
 
 const cors = require('cors');
-const port = 1245;
+const PORT = process.env.PORT || 1245;
 const app = express();
 
 app.use(cors({
@@ -15,7 +15,7 @@ app.options('*', cors()); // Handle preflight requests
 app.use(express.json());
 
 app.use("/", router);
-app.listen(port, () => {
+app.listen(PORT, () => {
   console.log(`Server is running and listening on http://localhost:${port}`);
 });
 
