@@ -1,0 +1,32 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/backend
+            git pull origin $GITHUB_REF_NAME
+            npm install
+
+            if [ "$GITHUB_REF_NAME" = "main" ]; then
+              pm2 restart my-app-prod
+            elif [ "$GITHUB_REF_NAME" = "dev" ]; then
+              pm2 restart my-app-test
+            fi
