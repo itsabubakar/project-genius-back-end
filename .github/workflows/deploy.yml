@@ -22,7 +22,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/backend
-            git pull origin $GITHUB_REF_NAME
+            sudo git pull origin $GITHUB_REF_NAME
             npm install
 
             if [ "$GITHUB_REF_NAME" = "main" ]; then
