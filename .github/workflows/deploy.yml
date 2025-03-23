@@ -23,12 +23,14 @@ jobs:
           script: |
             if [ "$GITHUB_REF_NAME" = "main" ]; then
               cd ~/backend-main
-              git pull origin main
-              npm install
-              pm2 restart my-app-prod
+              git fetch --all
+              git reset --hard origin/main
+              npm ci
+              pm2 restart my-app-prod || pm2 start app.js --name my-app-prod
             elif [ "$GITHUB_REF_NAME" = "dev" ]; then
               cd ~/backend-dev
-              git pull origin dev
-              npm install
-              pm2 restart my-app-test
+              git fetch --all
+              git reset --hard origin/dev
+              npm ci
+              pm2 restart my-app-test || pm2 start app.js --name my-app-test
             fi
