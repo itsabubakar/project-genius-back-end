@@ -4,48 +4,55 @@
  * @copyright Project Genius 2025
  */
 
-
 import { createClient } from "@supabase/supabase-js";
+import dotenv from "dotenv";
+import path from "path";
 
-const dotenv = require("dotenv");
-const path = require("path");
-
+// Load environment variables
 const envFile = `.env.${process.env.NODE_ENV || "production"}`;
-dotenv.config({ path: path.resolve(__dirname, envFile) });
-
-// Create a single supabase client for interacting with your database
+dotenv.config({ path: path.resolve(process.cwd(), envFile) });
 
 class SupabaseClient {
-  /**
-   * create a superbase client for querying the database;
-   * @extends ParentClassNameHereIfAny
-   */
-
   constructor() {
     this.supabaseURL = process.env.SUPABASE_URL;
     this.supabaseKey = process.env.SUPABASE_KEY;
-    // console.log(this.supabaseURL, this.supabaseKey);
+
+    if (!this.supabaseURL || !this.supabaseKey) {
+      throw new Error("Missing Supabase credentials: SUPABASE_URL and SUPABASE_KEY");
+    }
+
     this.supabase = createClient(this.supabaseURL, this.supabaseKey);
   }
 
-  
-
+  /**
+   * Validate the given user token and return the user ID if valid.
+   * @param {string} user_token - The user's authentication token.
+   * @returns {Promise<string|null>} User ID if valid, otherwise null.
+   */
   async validToken(user_token) {
-    const session = await this.supabase.auth.getSession();
-    console.log(session);
-    const { data: user, error } = await this.supabase.auth.getUser(user_token);
-    if (error) throw error;
-    return user.id;
+    const { data, error } = await this.supabase.auth.getUser();
+
+    if (error || !data?.user) {
+      console.error("Invalid token or authentication error:", error);
+      return null;
+    }
+
+    return data.user.id;
   }
 
+  /**
+   * Get the currently authenticated user.
+   * @returns {Promise<object|null>} User data or null if not authenticated.
+   */
   async getUser() {
-    const {error, data} = await this.supabase.auth.getUser();
+    const { data, error } = await this.supabase.auth.getUser();
 
-    if (error) return null;
+    if (error || !data?.user) {
+      return null;
+    }
+
     return data.user;
   }
 }
 
-const supabaseClient = new SupabaseClient();
-
-module.exports = supabaseClient;
+export default new SupabaseClient();
