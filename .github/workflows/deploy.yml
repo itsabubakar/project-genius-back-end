@@ -23,7 +23,7 @@ jobs:
           script: |
             echo "Happy to be deploying"
             echo "$GITHUB_REF"
-            BRANCH_NAME=$(echo "$GITHUB_REF" | sed 's|refs/heads/||')
+            BRANCH_NAME="${{ github.ref_name }}"
             echo "$BRANCH_NAME"
             echo "$GITHUB_REF_NAME"
             if [ "$GITHUB_REF_NAME" = "main" ]; then
