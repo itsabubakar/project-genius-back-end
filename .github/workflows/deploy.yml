@@ -21,6 +21,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            echo "$GITHUB_REF_NAME"
             if [ "$GITHUB_REF_NAME" = "main" ]; then
               cd ~/backend-main
               git fetch --all
