@@ -101,11 +101,12 @@ paths:
               schema:
                 type: object
                 properties:
-                  message:
+                  firstName:
                     type: string
-                    enum:
-                     - Update was successful
-                
+                  lastName: 
+                    type: string
+                  phone: 
+                    type: string                
       
   /users/team:
     patch:
