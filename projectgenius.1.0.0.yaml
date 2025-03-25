@@ -3,7 +3,7 @@ info:
   title: ProjectGenius API
   version: V1
 servers:
-  - url: https://b45b-102-91-72-177.ngrok-free.app
+  - url: https://test.api.projectgenius.com.ng
 # components:
 #   securitySchemes:
 #     bearerAuth:
@@ -78,7 +78,35 @@ paths:
                     type: string
                     enum:
                       - Verify email to complete SingUp
-                      
+    
+    patch:
+      summary: Update contestant data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                phone:
+                  type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                     - Update was successful
+                
+      
   /users/team:
     patch:
       summary: Joining A Team
