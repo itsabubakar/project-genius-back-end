@@ -43,6 +43,7 @@ class User {
 
     if (error) throw error;
     return data;
+    console.log(data);
   }
 }
 
