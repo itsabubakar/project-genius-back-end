@@ -6,7 +6,7 @@
 
 import User from "../utils/user";
 import Auth from "../utils/auth";
-import Team from "../utils/team";
+import supabaseClient from '../utils/supabase';
 
 
 class UsersController {
