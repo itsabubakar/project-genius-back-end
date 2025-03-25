@@ -42,8 +42,8 @@ class User {
       .select();
 
     if (error) throw error;
-    return data;
     console.log(data);
+    return data;
   }
 }
 
