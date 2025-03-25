@@ -42,7 +42,7 @@ class User {
       .select();
 
     if (error) throw error;
-    return data;
+    return data[0];
   }
 }
 

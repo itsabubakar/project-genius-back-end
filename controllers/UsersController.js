@@ -69,7 +69,7 @@ class UsersController {
         return res.status(401).json({ error: "Unauthorized"}) 
     const { firstName, lastName, phone } = req.body;
     try {
-      await User.updateContestant(
+      const newUser = await User.updateContestant(
         {
           first_name: firstName,
           last_name: lastName,
@@ -78,9 +78,9 @@ class UsersController {
         user.id
       );
       return res.status(200).json({
-        firstName,
-        lastName,
-        phone,
+        firstName: newUser.first_name,
+        lastName: newUser.last_name,
+        phone: newUser.phone
       });
     } catch (err) {
       console.log(err);
