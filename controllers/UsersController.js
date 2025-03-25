@@ -64,24 +64,19 @@ class UsersController {
   }
 
   static async updateContestant(req, res) {
-    const id = req.params.id;
-    if (!id) return res.status(401).json({ message: "Unauthorized" });
-    if (!Auth.isValidJWT(id))
-      return res.status(400).json({ message: "id not a uuid" });
+    const user = await supabaseClient.getUser();
+      if (!user)
+        return res.status(401).json({ error: "Unauthorized"}) 
     const { firstName, lastName, phone } = req.body;
     try {
-      const user = await User.updateContestant(
+      await User.updateContestant(
         {
           first_name: firstName,
           last_name: lastName,
           phone,
         },
-        id
+        user.id
       );
-
-      if (!user)
-        return res.status(404).json({ error: "User not found" });
-
       return res.status(200).json({ message: "Update was successful" });
     } catch (err) {
       console.log(err);
