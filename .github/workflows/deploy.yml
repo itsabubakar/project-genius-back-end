@@ -27,13 +27,13 @@ jobs:
               cd ~/backend-main
               git fetch --all
               git reset --hard origin/main
-              npm ci
+              npm i
               pm2 restart my-app-prod || pm2 start app.js --name my-app-prod
             elif [ "$BRANCH_NAME" = "dev" ]; then
               cd ~/backend-dev
               git fetch --all
               git reset --hard origin/dev
               git log -1
-              npm ci
+              npm i
               pm2 restart my-app-test || pm2 start app.js --name my-app-test
             fi
