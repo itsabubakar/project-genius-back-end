@@ -68,9 +68,6 @@ class UsersController {
       if (!user)
         return res.status(401).json({ error: "Unauthorized"}) 
     const { firstName, lastName, phone } = req.body;
-    if (!firstName && !lastName && !phone) {
-      return res.status(400).json({ error: "At least one field is required for update." });
-    }
     try {
       const newUser = await User.updateContestant(
         {
@@ -95,4 +92,3 @@ class UsersController {
 }
 
 module.exports = UsersController;
- 
