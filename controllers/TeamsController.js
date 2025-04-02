@@ -88,12 +88,12 @@ class TeamsController {
   }
 
   static async makeSubmission(req, res) {
-    const { title, problem, category, solution } = req.body
+    const { title, problem, video, solution } = req.body
     if (!title)
       return res.status(400).json({ error: "Missing title" })
     if (!problem)
       return res.status(400).json({ error: "Missing problem field" })
-    if (!category)
+    if (!video)
       return res.status(400).json({ error: "Missing category" })
     if (!solution)
       return res.status(400).json({ error: "Missing solution" })
@@ -103,12 +103,20 @@ class TeamsController {
         return res.status(401).json({ error: "Unauthorized" });
       const contestant = await User.getContestant(user.id)
       if (contestant.role !== "lead")
-        return res.status(401).json({ error: "Unauthorized" });
+        return res.status(403).json({ error: "Forbidden" });
+
+      const regex = /(?:youtube\.com\/(?:.*v=|embed\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+      const match = video.match(regex);
+      if (!match)
+        return res.status(400).json({ error: "Invalid youtube link" });
+
+      console.log(match[1]);
       await Solution.create({
         team_id: contestant.team_id,
         title,
         problem,
-        category,
+        video: match,
+        video_id: match[1],
         solution,
       })
       return res.status(201).send()
