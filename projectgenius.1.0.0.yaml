@@ -404,7 +404,7 @@ paths:
               properties:
                 title:
                   type: string
-                category:
+                video:
                   type: string
                 problem:
                   type: string
