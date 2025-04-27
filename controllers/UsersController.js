@@ -26,12 +26,12 @@ class UsersController {
       // inviteCode
     } = req.body;
 
-    if (!email) res.status(400).json({ error: "Missing email" });
-    if (!password) res.status(400).json({ error: "Missing password" });
-    if (!role) res.status(400).json({ error: "Missing role" });
-    if (!department) res.status(400).json({ error: "Missing department" });
+    if (!email) return res.status(400).json({ error: "Missing email" });
+    if (!password) return res.status(400).json({ error: "Missing password" });
+    if (!role) return res.status(400).json({ error: "Missing role" });
+    if (!department) return res.status(400).json({ error: "Missing department" });
 
-    if (!faculty) res.status(400).json({ error: "Missing faculty"});
+    if (!faculty) return res.status(400).json({ error: "Missing faculty"});
 
     if (!["member", "lead"].includes(role)) {
       return res.status(400).json({ error: "Invalid role selected" });
