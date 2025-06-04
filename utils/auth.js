@@ -41,7 +41,7 @@ class Auth {
     const { data, error } = await supabaseClient
     .supabase.auth.resetPasswordForEmail(
       email, {
-        redirectTo: "http://localhost:3000/auth/reset-password"
+        redirectTo: "https://www.projectgenius.com.ng/auth/reset-password"
       }
     );
     if (error) throw error;
