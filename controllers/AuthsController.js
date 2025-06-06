@@ -34,8 +34,7 @@ class AuthsController {
         team: team?.team_name,
       });
     } catch (err) {
-      if (!err.status)
-        return res.status(500).json({error: err.message});
+      if (!err.status) return res.status(500).json({ error: err.message });
       return res.status(err.status).json({ error: err.message });
     }
   }
@@ -45,8 +44,7 @@ class AuthsController {
       Auth.signOut();
       return res.status(204).send();
     } catch (err) {
-      if (!err.status)
-        return res.status(500).json({error: err.message});
+      if (!err.status) return res.status(500).json({ error: err.message });
       return res.status(err.status).json({ error: err.message });
     }
   }
@@ -60,8 +58,7 @@ class AuthsController {
         .status(200)
         .json({ message: "Check your email for reset link" });
     } catch (err) {
-      if (!err.status)
-        return res.status(500).json({error: err.message});
+      if (!err.status) return res.status(500).json({ error: err.message });
       return res.status(err.status).json({ error: err.message });
     }
   }
@@ -80,24 +77,20 @@ class AuthsController {
       await Auth.updatePassword(password, accessToken);
       return res.status(200).json({ message: "Password Updated" });
     } catch (err) {
-      if (!err.status)
-        return res.status(500).json({error: err.message});
+      if (!err.status) return res.status(500).json({ error: err.message });
       return res.status(err.status).json({ error: err.message });
     }
   }
 
   static async resendConfirmation(req, res) {
     const { email, password } = req.body;
-    if (!email)
-      return res.status(400).json({ error: "Missing email" })
-    if (!password)
-      return res.status(400).json({ error: "Missing password"})
+    if (!email) return res.status(400).json({ error: "Missing email" });
+    if (!password) return res.status(400).json({ error: "Missing password" });
     try {
       await Auth.sendConfirmation(email, password);
-      return res.status(200).json({ "message": "Confirmation mail sent"})
+      return res.status(200).json({ message: "Confirmation mail sent" });
     } catch (err) {
-      if (!err.status)
-        return res.status(500).json({error: err.message});
+      if (!err.status) return res.status(500).json({ error: err.message });
       return res.status(err.status).json({ error: err.message });
     }
   }
